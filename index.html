@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Приглашение на свидание 💖</title>
+    <style>
+        /* ----- БАЗОВЫЕ СТИЛИ И АНИМАЦИИ ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fce4ec 0%, #f8bbd0 100%);
+            padding: 16px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 32px 24px 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Падающие сердечки (фон) */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .heart-float {
+            position: absolute;
+            color: rgba(233, 30, 99, 0.15);
+            font-size: 28px;
+            animation: floatHeart 6s infinite ease-in-out;
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Основные экраны */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: fadeSlide 0.5s ease;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Типографика */
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a148c;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #6a1b9a;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 18px;
+            color: #4e342e;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .sub {
+            font-size: 16px;
+            color: #7b5b5b;
+            opacity: 0.8;
+        }
+
+        /* Кнопки */
+        .btn {
+            background: #d81b60;
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            padding: 16px 40px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3);
+            width: 100%;
+            max-width: 280px;
+            margin: 8px 0;
+            letter-spacing: 0.5px;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            background: #c2185b;
+            box-shadow: 0 12px 28px rgba(216, 27, 96, 0.4);
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d81b60;
+            color: #d81b60;
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: #d81b60;
+            color: white;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Дата-пикер (выбор даты) */
+        .date-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .date-card {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 32px;
+            border: 2px solid #f8bbd0;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 90px;
+            flex: 1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .date-card.selected {
+            border-color: #d81b60;
+            background: #fce4ec;
+            box-shadow: 0 8px 16px rgba(216, 27, 96, 0.2);
+        }
+        .date-card .day {
+            font-weight: 700;
+            color: #4a148c;
+        }
+        .date-card .date {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Выбор блюд */
+        .food-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin: 12px 0 18px;
+        }
+        .food-item {
+            background: white;
+            padding: 14px 20px;
+            border-radius: 60px;
+            border: 2px solid #f3e5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .food-item.selected {
+            border-color: #d81b60;
+            background: #fce4ec;
+        }
+        .food-item .emoji {
+            font-size: 28px;
+            margin-right: 12px;
+        }
+        .food-item .name {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            flex: 1;
+            text-align: left;
+        }
+        .food-item .check {
+            color: #d81b60;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Выбор ресторана */
+        .restaurant-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin: 12px 0 18px;
+        }
+        .restaurant-item {
+            background: white;
+            padding: 14px 20px;
+            border-radius: 60px;
+            border: 2px solid #f3e5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .restaurant-item.selected {
+            border-color: #d81b60;
+            background: #fce4ec;
+        }
+        .restaurant-item .emoji {
+            font-size: 28px;
+            margin-right: 12px;
+        }
+        .restaurant-item .name {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            flex: 1;
+            text-align: left;
+        }
+        .restaurant-item .check {
+            color: #d81b60;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .restaurant-item .address {
+            font-size: 12px;
+            color: #999;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Финальный экран */
+        .final-card {
+            background: white;
+            border-radius: 32px;
+            padding: 20px 24px;
+            width: 100%;
+            margin: 12px 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            text-align: left;
+        }
+        .final-card .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3e5f5;
+        }
+        .final-card .row:last-child {
+            border-bottom: none;
+        }
+        .final-card .label {
+            color: #7b5b5b;
+            font-weight: 500;
+        }
+        .final-card .value {
+            color: #4a148c;
+            font-weight: 600;
+            text-align: right;
+            max-width: 60%;
+        }
+        .confetti {
+            font-size: 48px;
+            margin: 8px 0;
+        }
+
+        /* Адаптив */
+        @media (max-width: 480px) {
+            .container { padding: 24px 16px 32px; }
+            h1 { font-size: 28px; }
+            .btn { font-size: 18px; padding: 14px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <!-- Фон с сердечками -->
+    <div class="hearts-bg" id="heartsContainer"></div>
+
+    <!-- ===== ЭКРАН 1: ПРИГЛАШЕНИЕ ===== -->
+    <div class="screen active" id="screen1">
+        <div style="font-size: 72px; margin-bottom: 8px;">💌</div>
+        <h1>Привет, красавица!</h1>
+        <p style="font-size: 20px;">Я хочу пригласить тебя на <br><strong>самое лучшее свидание</strong> 🌹</p>
+        <p class="sub">Ты согласна провести этот вечер со мной?</p>
+        <button class="btn" onclick="goToScreen(2)">ДА, СОГЛАСНА! ❤️</button>
+        <button class="btn btn-outline" onclick="goToScreen(2)" style="margin-top: 0;">Конечно, да!</button>
+    </div>
+
+    <!-- ===== ЭКРАН 2: ПОДТВЕРЖДЕНИЕ ===== -->
+    <div class="screen" id="screen2">
+        <div style="font-size: 64px; margin-bottom: 4px;">🥳</div>
+        <h2>Ура! Я так рад!</h2>
+        <p>Ты сделала мой день!<br>Теперь давай выберем детали, чтобы всё прошло идеально ✨</p>
+        <button class="btn" onclick="goToScreen(3)">Выбрать дату 📅</button>
+    </div>
+
+    <!-- ===== ЭКРАН 3: ВЫБОР ДАТЫ ===== -->
+    <div class="screen" id="screen3">
+        <h2>🗓 Когда гуляем?</h2>
+        <p class="sub">Выбери день, который тебе удобен</p>
+        <div class="date-grid" id="dateGrid">
+            <div class="date-card" data-date="Сегодня" onclick="selectDate(this)">
+                <div class="day">Сегодня</div>
+                <div class="date">❤️ прямо сейчас</div>
+            </div>
+            <div class="date-card" data-date="Завтра" onclick="selectDate(this)">
+                <div class="day">Завтра</div>
+                <div class="date">🌟 идеально</div>
+            </div>
+            <div class="date-card" data-date="В выходные" onclick="selectDate(this)">
+                <div class="day">Выходные</div>
+                <div class="date">🎉 целый день</div>
+            </div>
+        </div>
+        <button class="btn" onclick="goToScreen(4)" id="nextToFood" disabled>Выбрать меню 🍽</button>
+        <p class="sub" id="dateHint" style="font-size: 14px; margin-top: 4px;">*выбери дату</p>
+    </div>
+
+    <!-- ===== ЭКРАН 4: ВЫБОР БЛЮД ===== -->
+    <div class="screen" id="screen4">
+        <h2>🍕 Что будем есть?</h2>
+        <p class="sub">Выбери, что хочешь попробовать (можно несколько)</p>
+        <div class="food-grid" id="foodGrid">
+            <div class="food-item" data-food="Пицца Маргарита" onclick="toggleFood(this)">
+                <span class="emoji">🍕</span>
+                <span class="name">Пицца Маргарита</span>
+                <span class="check"> </span>
+            </div>
+            <div class="food-item" data-food="Паста Карбонара" onclick="toggleFood(this)">
+                <span class="emoji">🍝</span>
+                <span class="name">Паста Карбонара</span>
+                <span class="check"> </span>
+            </div>
+            <div class="food-item" data-food="Салат Цезарь" onclick="toggleFood(this)">
+                <span class="emoji">🥗</span>
+                <span class="name">Салат Цезарь</span>
+                <span class="check"> </span>
+            </div>
+            <div class="food-item" data-food="Тирамису" onclick="toggleFood(this)">
+                <span class="emoji">🍰</span>
+                <span class="name">Тирамису</span>
+                <span class="check"> </span>
+            </div>
+            <div class="food-item" data-food="Фруктовый сок" onclick="toggleFood(this)">
+                <span class="emoji">🧃</span>
+                <span class="name">Фруктовый сок</span>
+                <span class="check"> </span>
+            </div>
+        </div>
+        <button class="btn" onclick="goToScreen(5)" id="nextToRestaurant">Выбрать ресторан 🏛</button>
+    </div>
+
+    <!-- ===== ЭКРАН 5: ВЫБОР РЕСТОРАНА (НОВЫЙ!) ===== -->
+    <div class="screen" id="screen5">
+        <h2>🏛 Куда пойдём?</h2>
+        <p class="sub">Выбери ресторан, где мы проведём вечер</p>
+        <div class="restaurant-grid" id="restaurantGrid">
+            <div class="restaurant-item" data-restaurant="Васильки" onclick="selectRestaurant(this)">
+                <span class="emoji">🇮🇹</span>
+                <div>
+                    <span class="name">Васильки</span>
+                    <span class="address">📍 Партизанский просп., 150А</span>
+                </div>
+                <span class="check"> </span>
+            </div>
+            <div class="restaurant-item" data-restaurant="Японский сад" onclick="selectRestaurant(this)">
+                <span class="emoji">🍣</span>
+                <div>
+                    <span class="name">Хинкальня</span>
+                    <span class="address">📍 Партизанский просп., 150А</span>
+                </div>
+                <span class="check"> </span>
+            </div>
+            <div class="restaurant-item" data-restaurant="Французский дворик" onclick="selectRestaurant(this)">
+                <span class="emoji">🥐</span>
+                <div>
+                    <span class="name">Пицца Темпо</span>
+                    <span class="address">📍 Партизанский просп., 150А</span>
+                </div>
+                <span class="check"> </span>
+            </div>
+            <div class="restaurant-item" data-restaurant="Грузинский дом" onclick="selectRestaurant(this)">
+                <span class="emoji">🍷</span>
+                <div>
+                    <span class="name">Приготовим что-то дома</span>
+                    <span class="address">📍 Дом</span>
+                </div>
+                <span class="check"> </span>
+            </div>
+            <div class="restaurant-item" data-restaurant="Панорама" onclick="selectRestaurant(this)">
+                <span class="emoji">🌃</span>
+                <div>
+                    <span class="name">Не знаю сейчас</span>
+                    <span class="address">📍 Выберем при встрече</span>
+                </div>
+                <span class="check"> </span>
+            </div>
+        </div>
+        <button class="btn" onclick="goToScreen(6)" id="nextToFinal" disabled>Показать план 💫</button>
+        <p class="sub" id="restaurantHint" style="font-size: 14px; margin-top: 4px;">*выбери ресторан</p>
+    </div>
+
+    <!-- ===== ЭКРАН 6: ФИНАЛ ===== -->
+    <div class="screen" id="screen6">
+        <div class="confetti">🎉💖🎉</div>
+        <h2>Всё готово!</h2>
+        <p>Ты — лучшая! Я уже всё подготовил 😍</p>
+        <div class="final-card" id="finalSummary">
+            <div class="row"><span class="label">📅 Дата</span><span class="value" id="finalDate">—</span></div>
+            <div class="row"><span class="label">🍽 Меню</span><span class="value" id="finalFood">—</span></div>
+            <div class="row"><span class="label">🏛 Ресторан</span><span class="value" id="finalRestaurant">—</span></div>
+            <div class="row"><span class="label">📍 Адрес</span><span class="value" id="finalAddress">—</span></div>
+            <div class="row"><span class="label">⏰ Время</span><span class="value" id="finalTime">19:00</span></div>
+        </div>
+        <p style="font-size: 14px; color: #777; margin-top: 8px;">❤️ Я тебя очень жду ❤️</p>
+        <button class="btn" onclick="resetAll()" style="background: #7b5b5b; box-shadow: none;">Начать заново 🔄</button>
+    </div>
+
+</div>
+
+<script>
+    // ----- НАСТРОЙКИ (ТЫ МОЖЕШЬ МЕНЯТЬ ТЕКСТЫ, АДРЕСА И ВРЕМЯ) -----
+    const CONFIG = {
+        time: "19:00",  // Время свидания
+    };
+
+    // ----- ПЕРЕМЕННЫЕ СОСТОЯНИЯ -----
+    let selectedDate = null;
+    let selectedFoods = [];
+    let selectedRestaurant = null;
+    let selectedAddress = '';
+
+    // ----- ПЕРЕХОД МЕЖДУ ЭКРАНАМИ -----
+    function goToScreen(num) {
+        // Скрыть все
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        // Показать нужный
+        const target = document.getElementById('screen' + num);
+        if (target) target.classList.add('active');
+
+        // Если переходим на финальный экран (6) — обновляем данные
+        if (num === 6) updateFinalScreen();
+
+        // Небольшая анимация прокрутки вверх
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ----- ВЫБОР ДАТЫ (ЭКРАН 3) -----
+    function selectDate(el) {
+        document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedDate = el.dataset.date;
+        document.getElementById('nextToFood').disabled = false;
+        document.getElementById('dateHint').textContent = '✅ отлично!';
+    }
+
+    // ----- ВЫБОР БЛЮД (ЭКРАН 4) -----
+    function toggleFood(el) {
+        el.classList.toggle('selected');
+        const foodName = el.dataset.food;
+        const checkSpan = el.querySelector('.check');
+        if (el.classList.contains('selected')) {
+            checkSpan.textContent = '✅';
+            if (!selectedFoods.includes(foodName)) selectedFoods.push(foodName);
+        } else {
+            checkSpan.textContent = ' ';
+            selectedFoods = selectedFoods.filter(f => f !== foodName);
+        }
+    }
+
+    // ----- ВЫБОР РЕСТОРАНА (ЭКРАН 5) -----
+    function selectRestaurant(el) {
+        // Убрать выделение у всех
+        document.querySelectorAll('.restaurant-item').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        
+        // Сохраняем название и адрес
+        selectedRestaurant = el.dataset.restaurant;
+        const addressEl = el.querySelector('.address');
+        selectedAddress = addressEl ? addressEl.textContent.replace('📍 ', '') : 'Адрес не указан';
+        
+        // Активируем кнопку
+        document.getElementById('nextToFinal').disabled = false;
+        document.getElementById('restaurantHint').textContent = '✅ отлично!';
+    }
+
+    // ----- ФИНАЛЬНЫЙ ЭКРАН (СБОР ДАННЫХ) -----
+    function updateFinalScreen() {
+        // Дата
+        document.getElementById('finalDate').textContent = selectedDate || 'Не выбрана';
+
+        // Еда
+        let foodText = selectedFoods.length > 0 ? selectedFoods.join(', ') : 'Будет сюрприз';
+        document.getElementById('finalFood').textContent = foodText;
+
+        // Ресторан
+        document.getElementById('finalRestaurant').textContent = selectedRestaurant || 'Не выбран';
+        document.getElementById('finalAddress').textContent = selectedAddress || '—';
+
+        // Время из конфига
+        document.getElementById('finalTime').textContent = CONFIG.time;
+    }
+
+    // ----- СБРОС ВСЕГО -----
+    function resetAll() {
+        selectedDate = null;
+        selectedFoods = [];
+        selectedRestaurant = null;
+        selectedAddress = '';
+
+        // Сбросить даты
+        document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
+        document.getElementById('nextToFood').disabled = true;
+        document.getElementById('dateHint').textContent = '*выбери дату';
+
+        // Сбросить блюда
+        document.querySelectorAll('.food-item').forEach(el => {
+            el.classList.remove('selected');
+            el.querySelector('.check').textContent = ' ';
+        });
+
+        // Сбросить рестораны
+        document.querySelectorAll('.restaurant-item').forEach(el => {
+            el.classList.remove('selected');
+            el.querySelector('.check').textContent = ' ';
+        });
+        document.getElementById('nextToFinal').disabled = true;
+        document.getElementById('restaurantHint').textContent = '*выбери ресторан';
+
+        // Перейти на первый экран
+        goToScreen(1);
+    }
+
+    // ----- ГЕНЕРАЦИЯ ПАДАЮЩИХ СЕРДЕЦ (ФОН) -----
+    function createHearts() {
+        const container = document.getElementById('heartsContainer');
+        const heartSymbols = ['❤️', '💖', '💕', '💗', '♥️'];
+        for (let i = 0; i < 12; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (16 + Math.random() * 28) + 'px';
+            heart.style.animationDuration = (8 + Math.random() * 10) + 's';
+            heart.style.animationDelay = (Math.random() * 12) + 's';
+            container.appendChild(heart);
+        }
+    }
+    createHearts();
+
+    console.log('💖 Приятного свидания! Не забудь изменить адреса ресторанов под себя.');
+</script>
+</body>
+</html>
