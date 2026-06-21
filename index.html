@@ -339,7 +339,7 @@
         <button class="btn btn-outline" onclick="goToScreen(2)" style="margin-top: 0;">Конечно, да!</button>
     </div>
 
-    <!-- ===== ЭКРАН 2: ПОДТВЕРЖДЕНИЕ ===== -->
+     <!-- ЭКРАН 2 -->
     <div class="screen" id="screen2">
         <div style="font-size: 64px; margin-bottom: 4px;">🥳</div>
         <h2>Ура! Я так рад!</h2>
@@ -347,26 +347,19 @@
         <button class="btn" onclick="goToScreen(3)">Выбрать дату 📅</button>
     </div>
 
-    <!-- ===== ЭКРАН 3: ВЫБОР ДАТЫ ===== -->
+    <!-- ===== ЭКРАН 3: ВЫБОР ДАТЫ (КАЛЕНДАРЬ) ===== -->
     <div class="screen" id="screen3">
         <h2>🗓 Когда гуляем?</h2>
-        <p class="sub">Выбери день, который тебе удобен</p>
-        <div class="date-grid" id="dateGrid">
-            <div class="date-card" data-date="Сегодня" onclick="selectDate(this)">
-                <div class="day">Сегодня</div>
-                <div class="date">❤️ прямо сейчас</div>
-            </div>
-            <div class="date-card" data-date="Завтра" onclick="selectDate(this)">
-                <div class="day">Завтра</div>
-                <div class="date">🌟 идеально</div>
-            </div>
-            <div class="date-card" data-date="В выходные" onclick="selectDate(this)">
-                <div class="day">Выходные</div>
-                <div class="date">🎉 целый день</div>
-            </div>
+        <p class="sub">Выбери день и месяц</p>
+
+        <div class="date-picker-wrapper" id="datePickerWrapper">
+            <label for="dateInput">📅 Выбери дату:</label>
+            <input type="date" id="dateInput" onchange="onDateChange(this)">
+            <div class="selected-date-display" id="selectedDateDisplay">🌹 выбери дату</div>
         </div>
+
         <button class="btn" onclick="goToScreen(4)" id="nextToFood" disabled>Выбрать меню 🍽</button>
-        <p class="sub" id="dateHint" style="font-size: 14px; margin-top: 4px;">*выбери дату</p>
+        <p class="sub" id="dateHint" style="font-size: 14px; margin-top: 4px;">*выбери дату в календаре</p>
     </div>
 
     <!-- ===== ЭКРАН 4: ВЫБОР БЛЮД ===== -->
