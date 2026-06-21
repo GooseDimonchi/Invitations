@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Приглашение на свидание 💖</title>
     <style>
-        /* ----- БАЗОВЫЕ СТИЛИ И АНИМАЦИИ ----- */
         * {
             margin: 0;
             padding: 0;
@@ -37,7 +36,6 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* Падающие сердечки (фон) */
         .hearts-bg {
             position: absolute;
             top: 0;
@@ -61,7 +59,6 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Основные экраны */
         .screen {
             display: none;
             flex-direction: column;
@@ -80,7 +77,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Типографика */
         h1 {
             font-size: 32px;
             font-weight: 700;
@@ -106,7 +102,6 @@
             opacity: 0.8;
         }
 
-        /* Кнопки */
         .btn {
             background: #d81b60;
             border: none;
@@ -154,37 +149,51 @@
             background: #1b5e20;
         }
 
-        /* Дата-пикер (выбор даты) */
-        .date-grid {
+        /* ----- ВЫБОР ДАТЫ И ВРЕМЕНИ (НОВОЕ) ----- */
+        .datetime-group {
+            width: 100%;
+            margin: 12px 0 16px;
+        }
+        .datetime-group label {
+            display: block;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a148c;
+            margin-bottom: 6px;
+        }
+        .datetime-group input[type="date"],
+        .datetime-group input[type="time"] {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 60px;
+            border: 2px solid #f3e5f5;
+            font-size: 18px;
+            background: white;
+            color: #333;
+            transition: all 0.2s;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .datetime-group input[type="date"]:focus,
+        .datetime-group input[type="time"]:focus {
+            border-color: #d81b60;
+            box-shadow: 0 0 0 4px rgba(216, 27, 96, 0.1);
+        }
+        .datetime-group input[type="date"]::-webkit-calendar-picker-indicator,
+        .datetime-group input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: hue-rotate(320deg) brightness(0.8);
+            cursor: pointer;
+        }
+        .datetime-row {
             display: flex;
             gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 16px 0;
+            width: 100%;
         }
-        .date-card {
-            background: white;
-            padding: 16px 20px;
-            border-radius: 32px;
-            border: 2px solid #f8bbd0;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-width: 90px;
+        .datetime-row .datetime-group {
             flex: 1;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-        .date-card.selected {
-            border-color: #d81b60;
-            background: #fce4ec;
-            box-shadow: 0 8px 16px rgba(216, 27, 96, 0.2);
-        }
-        .date-card .day {
-            font-weight: 700;
-            color: #4a148c;
-        }
-        .date-card .date {
-            font-size: 14px;
-            color: #777;
         }
 
         /* Выбор блюд */
@@ -280,7 +289,7 @@
             padding: 20px 24px;
             width: 100%;
             margin: 12px 0;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
             text-align: left;
         }
         .final-card .row {
@@ -306,27 +315,34 @@
             font-size: 48px;
             margin: 8px 0;
         }
-        .loading {
-            display: inline-block;
-            animation: spin 1s linear infinite;
+        .status-ok {
+            color: #2e7d32;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .status-error {
+            color: #c62828;
         }
 
-        /* Адаптив */
         @media (max-width: 480px) {
-            .container { padding: 24px 16px 32px; }
-            h1 { font-size: 28px; }
-            .btn { font-size: 18px; padding: 14px 24px; }
+            .container {
+                padding: 24px 16px 32px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .btn {
+                font-size: 18px;
+                padding: 14px 24px;
+            }
+            .datetime-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container" id="app">
-    <!-- Фон с сердечками -->
     <div class="hearts-bg" id="heartsContainer"></div>
 
     <!-- ===== ЭКРАН 1: ПРИГЛАШЕНИЕ ===== -->
@@ -339,7 +355,7 @@
         <button class="btn btn-outline" onclick="goToScreen(2)" style="margin-top: 0;">Конечно, да!</button>
     </div>
 
-     <!-- ЭКРАН 2 -->
+    <!-- ===== ЭКРАН 2: ПОДТВЕРЖДЕНИЕ ===== -->
     <div class="screen" id="screen2">
         <div style="font-size: 64px; margin-bottom: 4px;">🥳</div>
         <h2>Ура! Я так рад!</h2>
@@ -347,19 +363,24 @@
         <button class="btn" onclick="goToScreen(3)">Выбрать дату 📅</button>
     </div>
 
-    <!-- ===== ЭКРАН 3: ВЫБОР ДАТЫ (КАЛЕНДАРЬ) ===== -->
+    <!-- ===== ЭКРАН 3: ВЫБОР ДАТЫ И ВРЕМЕНИ (ОБНОВЛЁН!) ===== -->
     <div class="screen" id="screen3">
         <h2>🗓 Когда гуляем?</h2>
-        <p class="sub">Выбери день и месяц</p>
+        <p class="sub">Выбери день и время, которое тебе удобно</p>
 
-        <div class="date-picker-wrapper" id="datePickerWrapper">
-            <label for="dateInput">📅 Выбери дату:</label>
-            <input type="date" id="dateInput" onchange="onDateChange(this)">
-            <div class="selected-date-display" id="selectedDateDisplay">🌹 выбери дату</div>
+        <div class="datetime-group">
+            <label for="datePicker">📅 Дата</label>
+            <input type="date" id="datePicker" onchange="checkDateTime()">
         </div>
 
+        <div class="datetime-group">
+            <label for="timePicker">⏰ Время</label>
+            <input type="time" id="timePicker" onchange="checkDateTime()">
+        </div>
+
+        <p id="dateHint" style="font-size: 14px; margin-top: 4px; color: #7b5b5b;">* выбери дату и время</p>
+
         <button class="btn" onclick="goToScreen(4)" id="nextToFood" disabled>Выбрать меню 🍽</button>
-        <p class="sub" id="dateHint" style="font-size: 14px; margin-top: 4px;">*выбери дату в календаре</p>
     </div>
 
     <!-- ===== ЭКРАН 4: ВЫБОР БЛЮД ===== -->
@@ -388,8 +409,8 @@
                 <span class="check"> </span>
             </div>
             <div class="food-item" data-food="Фруктовый сок" onclick="toggleFood(this)">
-                <span class="emoji">🥟</span>
-                <span class="name">Хинкали</span>
+                <span class="emoji">🧃</span>
+                <span class="name">Фруктовый сок</span>
                 <span class="check"> </span>
             </div>
         </div>
@@ -401,49 +422,49 @@
         <h2>🏛 Куда пойдём?</h2>
         <p class="sub">Выбери ресторан, где мы проведём вечер</p>
         <div class="restaurant-grid" id="restaurantGrid">
-            <div class="restaurant-item" data-restaurant="Васильки" onclick="selectRestaurant(this)">
-                <span class="emoji">🌸</span>
+            <div class="restaurant-item" data-restaurant="Итальянский дворик" onclick="selectRestaurant(this)">
+                <span class="emoji">🇮🇹</span>
                 <div>
-                    <span class="name">Васильки</span>
-                    <span class="address">📍 Партизанский просп., 150А</span>
+                    <span class="name">Итальянский дворик</span>
+                    <span class="address">📍 ул. Романтиков, 15</span>
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Хинкальня" onclick="selectRestaurant(this)">
-                <span class="emoji">🥟</span>
+            <div class="restaurant-item" data-restaurant="Японский сад" onclick="selectRestaurant(this)">
+                <span class="emoji">🍣</span>
                 <div>
-                    <span class="name">Хинкальня</span>
-                    <span class="address">📍 Партизанский просп., 150А</span>
+                    <span class="name">Японский сад</span>
+                    <span class="address">📍 пр. Востока, 7</span>
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Пицца Темпо" onclick="selectRestaurant(this)">
-                <span class="emoji">🍕</span>
+            <div class="restaurant-item" data-restaurant="Французский дворик" onclick="selectRestaurant(this)">
+                <span class="emoji">🥐</span>
                 <div>
-                    <span class="name">Пицца Темпо</span>
-                    <span class="address">📍 Партизанский просп., 150А</span>
+                    <span class="name">Французский дворик</span>
+                    <span class="address">📍 ул. Парижская, 3</span>
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Сделаем дома" onclick="selectRestaurant(this)">
-                <span class="emoji">🥣</span>
+            <div class="restaurant-item" data-restaurant="Грузинский дом" onclick="selectRestaurant(this)">
+                <span class="emoji">🍷</span>
                 <div>
-                    <span class="name">Сделаем дома</span>
-                    <span class="address">📍 У меня дома</span>
+                    <span class="name">Грузинский дом</span>
+                    <span class="address">📍 ул. Тбилисская, 12</span>
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Пикник на природе" onclick="selectRestaurant(this)">
-                <span class="emoji">🏕</span>
+            <div class="restaurant-item" data-restaurant="Панорама" onclick="selectRestaurant(this)">
+                <span class="emoji">🌃</span>
                 <div>
-                    <span class="name">Пикник на природе</span>
-                    <span class="address">📍 Пикник на природе</span>
+                    <span class="name">Панорама</span>
+                    <span class="address">📍 наб. Речная, 45</span>
                 </div>
                 <span class="check"> </span>
             </div>
         </div>
         <button class="btn" onclick="goToScreen(6)" id="nextToFinal" disabled>Показать план 💫</button>
-        <p class="sub" id="restaurantHint" style="font-size: 14px; margin-top: 4px;">*выбери ресторан</p>
+        <p class="sub" id="restaurantHint" style="font-size: 14px; margin-top: 4px;">* выбери ресторан</p>
     </div>
 
     <!-- ===== ЭКРАН 6: ФИНАЛ ===== -->
@@ -453,19 +474,18 @@
         <p>Ты — лучшая! Я уже всё подготовил 😍</p>
         <div class="final-card" id="finalSummary">
             <div class="row"><span class="label">📅 Дата</span><span class="value" id="finalDate">—</span></div>
+            <div class="row"><span class="label">⏰ Время</span><span class="value" id="finalTime">—</span></div>
             <div class="row"><span class="label">🍽 Меню</span><span class="value" id="finalFood">—</span></div>
             <div class="row"><span class="label">🏛 Ресторан</span><span class="value" id="finalRestaurant">—</span></div>
             <div class="row"><span class="label">📍 Адрес</span><span class="value" id="finalAddress">—</span></div>
-            <div class="row"><span class="label">⏰ Время</span><span class="value" id="finalTime">19:00</span></div>
         </div>
         <p style="font-size: 14px; color: #777; margin-top: 8px;">❤️ Я тебя очень жду ❤️</p>
-        
-        <!-- КНОПКА ДЛЯ ОТПРАВКИ УВЕДОМЛЕНИЯ -->
+
         <button class="btn btn-success" onclick="sendNotification()" id="sendBtn">
             📨 Отправить организатору
         </button>
-        <p id="sendStatus" style="font-size: 14px; margin-top: 6px; color: #777;"></p>
-        
+        <p id="sendStatus" style="font-size: 14px; margin-top: 6px;"></p>
+
         <button class="btn" onclick="resetAll()" style="background: #7b5b5b; box-shadow: none; margin-top: 4px;">Начать заново 🔄</button>
     </div>
 
@@ -473,21 +493,16 @@
 
 <script>
     // ============================================================
-    // 🔧 НАСТРОЙКИ — ЗАМЕНИ НА СВОИ ДАННЫЕ!
+    // 🔧 НАСТРОЙКИ — ВСТАВЬ СВОИ ДАННЫЕ!
     // ============================================================
     const CONFIG = {
-        time: "19:00",
-        
-        // 👇 ТВОЙ TELEGRAM БОТ (получи у @BotFather)
-        BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI", // ЗАМЕНИ!
-        
-        // 👇 ТВОЙ ID (получи у @userinfobot)
-        CHAT_ID: "943862860", // ЗАМЕНИ!
+        BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI",  // 👈 ЗАМЕНИ
+        CHAT_ID: "943862860",               // 👈 ЗАМЕНИ
     };
     // ============================================================
 
-    // ----- ПЕРЕМЕННЫЕ СОСТОЯНИЯ -----
     let selectedDate = null;
+    let selectedTime = null;
     let selectedFoods = [];
     let selectedRestaurant = null;
     let selectedAddress = '';
@@ -502,13 +517,37 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ----- ВЫБОР ДАТЫ -----
-    function selectDate(el) {
-        document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedDate = el.dataset.date;
-        document.getElementById('nextToFood').disabled = false;
-        document.getElementById('dateHint').textContent = '✅ отлично!';
+    // ----- ВЫБОР ДАТЫ И ВРЕМЕНИ (НОВОЕ!) -----
+    function checkDateTime() {
+        const dateInput = document.getElementById('datePicker');
+        const timeInput = document.getElementById('timePicker');
+        const hint = document.getElementById('dateHint');
+        const btn = document.getElementById('nextToFood');
+
+        selectedDate = dateInput.value;
+        selectedTime = timeInput.value;
+
+        if (selectedDate && selectedTime) {
+            btn.disabled = false;
+            hint.textContent = '✅ отлично! ' + formatDate(selectedDate) + ' в ' + selectedTime;
+            hint.style.color = '#2e7d32';
+        } else {
+            btn.disabled = true;
+            hint.textContent = '* выбери дату и время';
+            hint.style.color = '#7b5b5b';
+        }
+    }
+
+    // Форматирование даты из YYYY-MM-DD в "17 июня 2026"
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const parts = dateStr.split('-');
+        const year = parts[0];
+        const month = parseInt(parts[1]) - 1;
+        const day = parseInt(parts[2]);
+        const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+            'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        return day + ' ' + months[month] + ' ' + year;
     }
 
     // ----- ВЫБОР БЛЮД -----
@@ -534,58 +573,84 @@
         selectedAddress = addressEl ? addressEl.textContent.replace('📍 ', '') : 'Адрес не указан';
         document.getElementById('nextToFinal').disabled = false;
         document.getElementById('restaurantHint').textContent = '✅ отлично!';
+        document.getElementById('restaurantHint').style.color = '#2e7d32';
     }
 
     // ----- ФИНАЛЬНЫЙ ЭКРАН -----
     function updateFinalScreen() {
-        document.getElementById('finalDate').textContent = selectedDate || 'Не выбрана';
+        const dateStr = selectedDate ? formatDate(selectedDate) : 'Не выбрана';
+        document.getElementById('finalDate').textContent = dateStr;
+        document.getElementById('finalTime').textContent = selectedTime || '—';
+
         let foodText = selectedFoods.length > 0 ? selectedFoods.join(', ') : 'Будет сюрприз';
         document.getElementById('finalFood').textContent = foodText;
         document.getElementById('finalRestaurant').textContent = selectedRestaurant || 'Не выбран';
         document.getElementById('finalAddress').textContent = selectedAddress || '—';
-        document.getElementById('finalTime').textContent = CONFIG.time;
-        // Сбрасываем статус отправки при повторном показе
+
         notificationSent = false;
         document.getElementById('sendStatus').textContent = '';
+        document.getElementById('sendStatus').className = '';
         document.getElementById('sendBtn').style.display = 'block';
+        document.getElementById('sendBtn').disabled = false;
+        document.getElementById('sendBtn').textContent = '📨 Отправить организатору';
     }
 
     // ============================================================
-    // 📨 ОТПРАВКА УВЕДОМЛЕНИЯ В TELEGRAM
+    // 📨 ОТПРАВКА В TELEGRAM
     // ============================================================
     async function sendNotification() {
         const btn = document.getElementById('sendBtn');
         const status = document.getElementById('sendStatus');
-        
-        // Проверяем, всё ли выбрано
-        if (!selectedDate || !selectedRestaurant || selectedFoods.length === 0) {
-            status.textContent = '⚠️ Сначала выбери дату, меню и ресторан!';
-            status.style.color = '#c62828';
+
+        // Проверяем токен
+        if (CONFIG.BOT_TOKEN === "СЮДА_ВСТАВЬ_ТОКЕН_ОТ_BOTFATHER" || CONFIG.BOT_TOKEN === "") {
+            status.textContent = '❌ Ошибка: не вставлен BOT_TOKEN!';
+            status.className = 'status-error';
             return;
         }
-        
+        if (CONFIG.CHAT_ID === "СЮДА_ВСТАВЬ_СВОЙ_ID" || CONFIG.CHAT_ID === "") {
+            status.textContent = '❌ Ошибка: не вставлен CHAT_ID!';
+            status.className = 'status-error';
+            return;
+        }
+
+        if (!selectedDate || !selectedTime) {
+            status.textContent = '⚠️ Выбери дату и время!';
+            status.className = 'status-error';
+            return;
+        }
+        if (selectedFoods.length === 0) {
+            status.textContent = '⚠️ Выбери хотя бы одно блюдо!';
+            status.className = 'status-error';
+            return;
+        }
+        if (!selectedRestaurant) {
+            status.textContent = '⚠️ Выбери ресторан!';
+            status.className = 'status-error';
+            return;
+        }
+
         if (notificationSent) {
             status.textContent = '✅ Уже отправлено!';
+            status.className = 'status-ok';
             return;
         }
 
-        // Меняем кнопку на "Загрузка..."
         btn.disabled = true;
         btn.textContent = '⏳ Отправляю...';
-        status.textContent = '';
+        status.textContent = '⏳ Отправка...';
+        status.className = '';
 
-        // Формируем сообщение
-        const message = `
-💖 НОВОЕ ПРИГЛАШЕНИЕ НА СВИДАНИЕ! 💖
+        const dateStr = formatDate(selectedDate);
+        const message = `💖 НОВОЕ ПРИГЛАШЕНИЕ НА СВИДАНИЕ! 💖
 
-📅 Дата: ${selectedDate}
+📅 Дата: ${dateStr}
+⏰ Время: ${selectedTime}
 🍽 Меню: ${selectedFoods.join(', ')}
 🏛 Ресторан: ${selectedRestaurant}
 📍 Адрес: ${selectedAddress}
-⏰ Время: ${CONFIG.time}
 
-❤️ Она согласилась! Всё готово к свиданию!
-        `.trim();
+❤️ Она согласилась! Всё готово к свиданию!`;
 
         try {
             const url = `https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`;
@@ -595,7 +660,6 @@
                 body: JSON.stringify({
                     chat_id: CONFIG.CHAT_ID,
                     text: message,
-                    parse_mode: 'HTML'
                 })
             });
 
@@ -603,32 +667,35 @@
 
             if (data.ok) {
                 status.textContent = '✅ Организатор уведомлён! ❤️';
-                status.style.color = '#2e7d32';
+                status.className = 'status-ok';
                 notificationSent = true;
                 btn.style.display = 'none';
             } else {
-                throw new Error(data.description || 'Ошибка отправки');
+                throw new Error(data.description || 'Неизвестная ошибка');
             }
         } catch (error) {
-            console.error('Ошибка:', error);
-            status.textContent = '❌ Не удалось отправить. Если не удалось пришли фото';
-            status.style.color = '#c62828';
+            console.error('❌ Ошибка:', error);
+            status.textContent = '❌ ' + error.message;
+            status.className = 'status-error';
             btn.disabled = false;
-            btn.textContent = '📨 Отправить организатору';
+            btn.textContent = '📨 Попробовать снова';
         }
     }
 
-    // ----- СБРОС ВСЕГО -----
+    // ----- СБРОС -----
     function resetAll() {
         selectedDate = null;
+        selectedTime = null;
         selectedFoods = [];
         selectedRestaurant = null;
         selectedAddress = '';
         notificationSent = false;
 
-        document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
+        document.getElementById('datePicker').value = '';
+        document.getElementById('timePicker').value = '';
         document.getElementById('nextToFood').disabled = true;
-        document.getElementById('dateHint').textContent = '*выбери дату';
+        document.getElementById('dateHint').textContent = '* выбери дату и время';
+        document.getElementById('dateHint').style.color = '#7b5b5b';
 
         document.querySelectorAll('.food-item').forEach(el => {
             el.classList.remove('selected');
@@ -640,17 +707,19 @@
             el.querySelector('.check').textContent = ' ';
         });
         document.getElementById('nextToFinal').disabled = true;
-        document.getElementById('restaurantHint').textContent = '*выбери ресторан';
+        document.getElementById('restaurantHint').textContent = '* выбери ресторан';
+        document.getElementById('restaurantHint').style.color = '#7b5b5b';
 
         document.getElementById('sendBtn').style.display = 'block';
         document.getElementById('sendBtn').disabled = false;
         document.getElementById('sendBtn').textContent = '📨 Отправить организатору';
         document.getElementById('sendStatus').textContent = '';
+        document.getElementById('sendStatus').className = '';
 
         goToScreen(1);
     }
 
-    // ----- ГЕНЕРАЦИЯ ПАДАЮЩИХ СЕРДЕЦ -----
+    // ----- СЕРДЕЧКИ -----
     function createHearts() {
         const container = document.getElementById('heartsContainer');
         const heartSymbols = ['❤️', '💖', '💕', '💗', '♥️'];
@@ -667,7 +736,9 @@
     }
     createHearts();
 
-    console.log('💖 Приятного свидания! Не забудь настроить BOT_TOKEN и CHAT_ID в CONFIG!');
+    console.log('💖 Сайт загружен!');
+    console.log('🔧 BOT_TOKEN:', CONFIG.BOT_TOKEN ? '✅ установлен' : '❌ не установлен');
+    console.log('🔧 CHAT_ID:', CONFIG.CHAT_ID ? '✅ установлен' : '❌ не установлен');
 </script>
 </body>
 </html>
