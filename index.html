@@ -149,7 +149,6 @@
             background: #1b5e20;
         }
 
-        /* ----- ВЫБОР ДАТЫ И ВРЕМЕНИ (НОВОЕ) ----- */
         .datetime-group {
             width: 100%;
             margin: 12px 0 16px;
@@ -187,16 +186,7 @@
             filter: hue-rotate(320deg) brightness(0.8);
             cursor: pointer;
         }
-        .datetime-row {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-        }
-        .datetime-row .datetime-group {
-            flex: 1;
-        }
 
-        /* Выбор блюд */
         .food-grid {
             display: flex;
             flex-direction: column;
@@ -236,7 +226,22 @@
             font-weight: bold;
         }
 
-        /* Выбор ресторана */
+        .food-skip {
+            background: #fff8e1;
+            border: 2px dashed #ffb300;
+        }
+        .food-skip .name {
+            color: #6d4c00;
+            font-weight: 600;
+        }
+        .food-skip.selected {
+            border-color: #ff8f00;
+            background: #ffe082;
+        }
+        .food-skip.selected .check {
+            color: #e65100;
+        }
+
         .restaurant-grid {
             display: flex;
             flex-direction: column;
@@ -282,7 +287,59 @@
             margin-top: 2px;
         }
 
-        /* Финальный экран */
+        .restaurant-custom {
+            background: #e8f5e9;
+            border: 2px dashed #43a047;
+        }
+        .restaurant-custom .name {
+            color: #1b5e20;
+            font-weight: 600;
+        }
+        .restaurant-custom.selected {
+            border-color: #2e7d32;
+            background: #c8e6c9;
+        }
+        .restaurant-custom.selected .check {
+            color: #1b5e20;
+        }
+
+        .custom-place-wrapper {
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.3s ease;
+            opacity: 0;
+            margin: 0;
+        }
+        .custom-place-wrapper.visible {
+            max-height: 160px;
+            opacity: 1;
+            margin: 4px 0 12px;
+        }
+        .custom-place-wrapper label {
+            display: block;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1b5e20;
+            margin-bottom: 6px;
+        }
+        .custom-place-wrapper input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 60px;
+            border: 2px solid #c8e6c9;
+            font-size: 17px;
+            background: white;
+            color: #333;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .custom-place-wrapper input:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+        }
+
         .final-card {
             background: white;
             border-radius: 32px;
@@ -333,10 +390,6 @@
                 font-size: 18px;
                 padding: 14px 24px;
             }
-            .datetime-row {
-                flex-direction: column;
-                gap: 0;
-            }
         }
     </style>
 </head>
@@ -363,7 +416,7 @@
         <button class="btn" onclick="goToScreen(3)">Выбрать дату 📅</button>
     </div>
 
-    <!-- ===== ЭКРАН 3: ВЫБОР ДАТЫ И ВРЕМЕНИ (ОБНОВЛЁН!) ===== -->
+    <!-- ===== ЭКРАН 3: ДАТА И ВРЕМЯ ===== -->
     <div class="screen" id="screen3">
         <h2>🗓 Когда гуляем?</h2>
         <p class="sub">Выбери день и время, которое тебе удобно</p>
@@ -383,7 +436,7 @@
         <button class="btn" onclick="goToScreen(4)" id="nextToFood" disabled>Выбрать меню 🍽</button>
     </div>
 
-    <!-- ===== ЭКРАН 4: ВЫБОР БЛЮД ===== -->
+    <!-- ===== ЭКРАН 4: БЛЮДА ===== -->
     <div class="screen" id="screen4">
         <h2>🍕 Что будем есть?</h2>
         <p class="sub">Выбери, что хочешь попробовать (можно несколько)</p>
@@ -413,16 +466,21 @@
                 <span class="name">Хинкали</span>
                 <span class="check"> </span>
             </div>
+            <div class="food-item food-skip" id="skipFoodOption" onclick="toggleSkipFood(this)">
+                <span class="emoji">🚶‍♀️</span>
+                <span class="name">Просто погуляем, потом решим</span>
+                <span class="check"> </span>
+            </div>
         </div>
-        <button class="btn" onclick="goToScreen(5)" id="nextToRestaurant">Выбрать ресторан 🏛</button>
+        <button class="btn" onclick="goToScreen(5)">Выбрать место 🏛</button>
     </div>
 
-    <!-- ===== ЭКРАН 5: ВЫБОР РЕСТОРАНА ===== -->
+    <!-- ===== ЭКРАН 5: МЕСТО ===== -->
     <div class="screen" id="screen5">
         <h2>🏛 Куда пойдём?</h2>
-        <p class="sub">Выбери ресторан, где мы проведём вечер</p>
+        <p class="sub">Выбери ресторан или предложи своё место</p>
         <div class="restaurant-grid" id="restaurantGrid">
-            <div class="restaurant-item" data-restaurant="Итальянский дворик" onclick="selectRestaurant(this)">
+            <div class="restaurant-item" data-restaurant="Васильки" onclick="selectRestaurant(this)">
                 <span class="emoji">🌸</span>
                 <div>
                     <span class="name">Васильки</span>
@@ -430,7 +488,7 @@
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Японский сад" onclick="selectRestaurant(this)">
+            <div class="restaurant-item" data-restaurant="Хинкальня" onclick="selectRestaurant(this)">
                 <span class="emoji">🥟</span>
                 <div>
                     <span class="name">Хинкальня</span>
@@ -438,7 +496,7 @@
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Французский дворик" onclick="selectRestaurant(this)">
+            <div class="restaurant-item" data-restaurant="Пицца Темпо" onclick="selectRestaurant(this)">
                 <span class="emoji">🍕</span>
                 <div>
                     <span class="name">Пицца Темпо</span>
@@ -446,7 +504,7 @@
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Грузинский дом" onclick="selectRestaurant(this)">
+            <div class="restaurant-item" data-restaurant="Garage" onclick="selectRestaurant(this)">
                 <span class="emoji">🥣</span>
                 <div>
                     <span class="name">Garage</span>
@@ -454,17 +512,29 @@
                 </div>
                 <span class="check"> </span>
             </div>
-            <div class="restaurant-item" data-restaurant="Панорама" onclick="selectRestaurant(this)">
+            <div class="restaurant-item" data-restaurant="Давай устроим наш день" onclick="selectRestaurant(this)">
                 <span class="emoji">⛺️</span>
                 <div>
                     <span class="name">Давай устроим наш день</span>
-                    <span class="address">📍 Выберем когда проголадаемся</span>
+                    <span class="address">📍 Выберем когда проголодаемся</span>
                 </div>
                 <span class="check"> </span>
             </div>
+
+            <div class="restaurant-item restaurant-custom" id="customRestaurantOption" onclick="toggleCustomRestaurant(this)">
+                <span class="emoji">✍️</span>
+                <span class="name">Свой вариант — напишу сама</span>
+                <span class="check"> </span>
+            </div>
         </div>
+
+        <div class="custom-place-wrapper" id="customPlaceWrapper">
+            <label for="customPlaceInput">📍 Куда хочешь пойти?</label>
+            <input type="text" id="customPlaceInput" placeholder="Например: на набережную..." oninput="onCustomPlaceInput()">
+        </div>
+
         <button class="btn" onclick="goToScreen(6)" id="nextToFinal" disabled>Показать план 💫</button>
-        <p class="sub" id="restaurantHint" style="font-size: 14px; margin-top: 4px;">* выбери ресторан</p>
+        <p class="sub" id="restaurantHint" style="font-size: 14px; margin-top: 4px;">* выбери ресторан или напиши своё место</p>
     </div>
 
     <!-- ===== ЭКРАН 6: ФИНАЛ ===== -->
@@ -476,7 +546,7 @@
             <div class="row"><span class="label">📅 Дата</span><span class="value" id="finalDate">—</span></div>
             <div class="row"><span class="label">⏰ Время</span><span class="value" id="finalTime">—</span></div>
             <div class="row"><span class="label">🍽 Меню</span><span class="value" id="finalFood">—</span></div>
-            <div class="row"><span class="label">🏛 Ресторан</span><span class="value" id="finalRestaurant">—</span></div>
+            <div class="row"><span class="label">🏛 Место</span><span class="value" id="finalRestaurant">—</span></div>
             <div class="row"><span class="label">📍 Адрес</span><span class="value" id="finalAddress">—</span></div>
         </div>
         <p style="font-size: 14px; color: #777; margin-top: 8px;">❤️ Я тебя очень жду ❤️</p>
@@ -493,11 +563,11 @@
 
 <script>
     // ============================================================
-    // 🔧 НАСТРОЙКИ — ВСТАВЬ СВОИ ДАННЫЕ!
+    // 🔧 НАСТРОЙКИ
     // ============================================================
     const CONFIG = {
-        BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI",  // 👈 ЗАМЕНИ
-        CHAT_ID: "943862860",               // 👈 ЗАМЕНИ
+        BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI",
+        CHAT_ID: "943862860",
     };
     // ============================================================
 
@@ -507,8 +577,10 @@
     let selectedRestaurant = null;
     let selectedAddress = '';
     let notificationSent = false;
+    let skipFoodSelected = false;
+    let customRestaurantSelected = false;
+    let customPlaceText = '';
 
-    // ----- ПЕРЕХОД МЕЖДУ ЭКРАНАМИ -----
     function goToScreen(num) {
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
         const target = document.getElementById('screen' + num);
@@ -517,7 +589,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ----- ВЫБОР ДАТЫ И ВРЕМЕНИ (НОВОЕ!) -----
     function checkDateTime() {
         const dateInput = document.getElementById('datePicker');
         const timeInput = document.getElementById('timePicker');
@@ -538,7 +609,6 @@
         }
     }
 
-    // Форматирование даты из YYYY-MM-DD в "17 июня 2026"
     function formatDate(dateStr) {
         if (!dateStr) return '';
         const parts = dateStr.split('-');
@@ -550,8 +620,9 @@
         return day + ' ' + months[month] + ' ' + year;
     }
 
-    // ----- ВЫБОР БЛЮД -----
     function toggleFood(el) {
+        if (skipFoodSelected) return;
+
         el.classList.toggle('selected');
         const foodName = el.dataset.food;
         const checkSpan = el.querySelector('.check');
@@ -564,28 +635,147 @@
         }
     }
 
-    // ----- ВЫБОР РЕСТОРАНА -----
+    function toggleSkipFood(el) {
+        skipFoodSelected = !skipFoodSelected;
+        const checkSpan = el.querySelector('.check');
+
+        if (skipFoodSelected) {
+            el.classList.add('selected');
+            checkSpan.textContent = '✅';
+            selectedFoods = [];
+
+            document.querySelectorAll('.food-item:not(.food-skip)').forEach(item => {
+                item.classList.remove('selected');
+                item.querySelector('.check').textContent = ' ';
+                item.style.opacity = '0.45';
+                item.style.pointerEvents = 'none';
+            });
+        } else {
+            el.classList.remove('selected');
+            checkSpan.textContent = ' ';
+            document.querySelectorAll('.food-item:not(.food-skip)').forEach(item => {
+                item.style.opacity = '1';
+                item.style.pointerEvents = 'auto';
+            });
+        }
+    }
+
     function selectRestaurant(el) {
         document.querySelectorAll('.restaurant-item').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
+
+        customRestaurantSelected = false;
+        customPlaceText = '';
+        document.getElementById('customPlaceInput').value = '';
+        document.getElementById('customPlaceWrapper').classList.remove('visible');
+
         selectedRestaurant = el.dataset.restaurant;
         const addressEl = el.querySelector('.address');
         selectedAddress = addressEl ? addressEl.textContent.replace('📍 ', '') : 'Адрес не указан';
-        document.getElementById('nextToFinal').disabled = false;
-        document.getElementById('restaurantHint').textContent = '✅ отлично!';
-        document.getElementById('restaurantHint').style.color = '#2e7d32';
+
+        // Возвращаем обычным пунктам активность
+        document.querySelectorAll('.restaurant-item:not(.restaurant-custom)').forEach(item => {
+            item.style.opacity = '1';
+            item.style.pointerEvents = 'auto';
+        });
+
+        updateRestaurantButton();
     }
 
-    // ----- ФИНАЛЬНЫЙ ЭКРАН -----
+    function toggleCustomRestaurant(el) {
+        customRestaurantSelected = !customRestaurantSelected;
+        const checkSpan = el.querySelector('.check');
+        const wrapper = document.getElementById('customPlaceWrapper');
+        const input = document.getElementById('customPlaceInput');
+
+        if (customRestaurantSelected) {
+            document.querySelectorAll('.restaurant-item:not(.restaurant-custom)').forEach(item => {
+                item.classList.remove('selected');
+                item.querySelector('.check').textContent = ' ';
+                item.style.opacity = '0.45';
+                item.style.pointerEvents = 'none';
+            });
+
+            el.classList.add('selected');
+            checkSpan.textContent = '✅';
+
+            wrapper.classList.add('visible');
+            setTimeout(() => input.focus(), 350);
+
+            selectedRestaurant = null;
+            selectedAddress = '';
+        } else {
+            el.classList.remove('selected');
+            checkSpan.textContent = ' ';
+            document.querySelectorAll('.restaurant-item:not(.restaurant-custom)').forEach(item => {
+                item.style.opacity = '1';
+                item.style.pointerEvents = 'auto';
+            });
+
+            wrapper.classList.remove('visible');
+            input.value = '';
+            customPlaceText = '';
+        }
+
+        updateRestaurantButton();
+    }
+
+    function onCustomPlaceInput() {
+        const input = document.getElementById('customPlaceInput');
+        customPlaceText = input.value.trim();
+        updateRestaurantButton();
+    }
+
+    function updateRestaurantButton() {
+        const btn = document.getElementById('nextToFinal');
+        const hint = document.getElementById('restaurantHint');
+
+        if (customRestaurantSelected) {
+            if (customPlaceText.length > 0) {
+                btn.disabled = false;
+                hint.textContent = '✅ отлично! Твоё место: ' + customPlaceText;
+                hint.style.color = '#2e7d32';
+            } else {
+                btn.disabled = true;
+                hint.textContent = '✍️ напиши, куда хочешь пойти';
+                hint.style.color = '#e65100';
+            }
+        } else if (selectedRestaurant) {
+            btn.disabled = false;
+            hint.textContent = '✅ отлично!';
+            hint.style.color = '#2e7d32';
+        } else {
+            btn.disabled = true;
+            hint.textContent = '* выбери ресторан или напиши своё место';
+            hint.style.color = '#7b5b5b';
+        }
+    }
+
     function updateFinalScreen() {
         const dateStr = selectedDate ? formatDate(selectedDate) : 'Не выбрана';
         document.getElementById('finalDate').textContent = dateStr;
         document.getElementById('finalTime').textContent = selectedTime || '—';
 
-        let foodText = selectedFoods.length > 0 ? selectedFoods.join(', ') : 'Будет сюрприз';
+        let foodText;
+        if (skipFoodSelected) {
+            foodText = 'Просто погуляем, потом решим 🚶‍♀️';
+        } else if (selectedFoods.length > 0) {
+            foodText = selectedFoods.join(', ');
+        } else {
+            foodText = 'Будет сюрприз';
+        }
         document.getElementById('finalFood').textContent = foodText;
-        document.getElementById('finalRestaurant').textContent = selectedRestaurant || 'Не выбран';
-        document.getElementById('finalAddress').textContent = selectedAddress || '—';
+
+        let restaurantText, addressText;
+        if (customRestaurantSelected && customPlaceText) {
+            restaurantText = '✍️ ' + customPlaceText;
+            addressText = 'Она выбрала сама 💚';
+        } else {
+            restaurantText = selectedRestaurant || 'Не выбран';
+            addressText = selectedAddress || '—';
+        }
+        document.getElementById('finalRestaurant').textContent = restaurantText;
+        document.getElementById('finalAddress').textContent = addressText;
 
         notificationSent = false;
         document.getElementById('sendStatus').textContent = '';
@@ -595,37 +785,27 @@
         document.getElementById('sendBtn').textContent = '📨 Отправить организатору';
     }
 
-    // ============================================================
-    // 📨 ОТПРАВКА В TELEGRAM
-    // ============================================================
     async function sendNotification() {
         const btn = document.getElementById('sendBtn');
         const status = document.getElementById('sendStatus');
-
-        // Проверяем токен
-        if (CONFIG.BOT_TOKEN === "СЮДА_ВСТАВЬ_ТОКЕН_ОТ_BOTFATHER" || CONFIG.BOT_TOKEN === "") {
-            status.textContent = '❌ Ошибка: не вставлен BOT_TOKEN!';
-            status.className = 'status-error';
-            return;
-        }
-        if (CONFIG.CHAT_ID === "СЮДА_ВСТАВЬ_СВОЙ_ID" || CONFIG.CHAT_ID === "") {
-            status.textContent = '❌ Ошибка: не вставлен CHAT_ID!';
-            status.className = 'status-error';
-            return;
-        }
 
         if (!selectedDate || !selectedTime) {
             status.textContent = '⚠️ Выбери дату и время!';
             status.className = 'status-error';
             return;
         }
-        if (selectedFoods.length === 0) {
-            status.textContent = '⚠️ Выбери хотя бы одно блюдо!';
+        if (!skipFoodSelected && selectedFoods.length === 0) {
+            status.textContent = '⚠️ Выбери блюда или нажми «Просто погуляем»!';
             status.className = 'status-error';
             return;
         }
-        if (!selectedRestaurant) {
-            status.textContent = '⚠️ Выбери ресторан!';
+
+        const hasPlace = customRestaurantSelected
+            ? customPlaceText.length > 0
+            : !!selectedRestaurant;
+
+        if (!hasPlace) {
+            status.textContent = '⚠️ Выбери ресторан или напиши своё место!';
             status.className = 'status-error';
             return;
         }
@@ -642,13 +822,26 @@
         status.className = '';
 
         const dateStr = formatDate(selectedDate);
+        const foodLine = skipFoodSelected
+            ? 'Просто погуляем, потом решим 🚶‍♀️'
+            : selectedFoods.join(', ');
+
+        let placeLine, addressLine;
+        if (customRestaurantSelected && customPlaceText) {
+            placeLine = '✍️ Свой вариант: ' + customPlaceText;
+            addressLine = 'Она выбрала сама 💚';
+        } else {
+            placeLine = selectedRestaurant;
+            addressLine = selectedAddress;
+        }
+
         const message = `💖 НОВОЕ ПРИГЛАШЕНИЕ НА СВИДАНИЕ! 💖
 
 📅 Дата: ${dateStr}
 ⏰ Время: ${selectedTime}
-🍽 Меню: ${selectedFoods.join(', ')}
-🏛 Ресторан: ${selectedRestaurant}
-📍 Адрес: ${selectedAddress}
+🍽 Меню: ${foodLine}
+🏛 Место: ${placeLine}
+📍 Адрес: ${addressLine}
 
 ❤️ Она согласилась! Всё готово к свиданию!`;
 
@@ -682,7 +875,6 @@
         }
     }
 
-    // ----- СБРОС -----
     function resetAll() {
         selectedDate = null;
         selectedTime = null;
@@ -690,6 +882,9 @@
         selectedRestaurant = null;
         selectedAddress = '';
         notificationSent = false;
+        skipFoodSelected = false;
+        customRestaurantSelected = false;
+        customPlaceText = '';
 
         document.getElementById('datePicker').value = '';
         document.getElementById('timePicker').value = '';
@@ -700,14 +895,22 @@
         document.querySelectorAll('.food-item').forEach(el => {
             el.classList.remove('selected');
             el.querySelector('.check').textContent = ' ';
+            el.style.opacity = '1';
+            el.style.pointerEvents = 'auto';
         });
 
         document.querySelectorAll('.restaurant-item').forEach(el => {
             el.classList.remove('selected');
             el.querySelector('.check').textContent = ' ';
+            el.style.opacity = '1';
+            el.style.pointerEvents = 'auto';
         });
+
+        document.getElementById('customPlaceInput').value = '';
+        document.getElementById('customPlaceWrapper').classList.remove('visible');
+
         document.getElementById('nextToFinal').disabled = true;
-        document.getElementById('restaurantHint').textContent = '* выбери ресторан';
+        document.getElementById('restaurantHint').textContent = '* выбери ресторан или напиши своё место';
         document.getElementById('restaurantHint').style.color = '#7b5b5b';
 
         document.getElementById('sendBtn').style.display = 'block';
@@ -719,7 +922,6 @@
         goToScreen(1);
     }
 
-    // ----- СЕРДЕЧКИ -----
     function createHearts() {
         const container = document.getElementById('heartsContainer');
         const heartSymbols = ['❤️', '💖', '💕', '💗', '♥️'];
@@ -737,8 +939,6 @@
     createHearts();
 
     console.log('💖 Сайт загружен!');
-    console.log('🔧 BOT_TOKEN:', CONFIG.BOT_TOKEN ? '✅ установлен' : '❌ не установлен');
-    console.log('🔧 CHAT_ID:', CONFIG.CHAT_ID ? '✅ установлен' : '❌ не установлен');
 </script>
 </body>
 </html>
