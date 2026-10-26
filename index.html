@@ -1,944 +1,475 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Приглашение на свидание 💖</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Опросник для подруги ⚡</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Georgia', 'Times New Roman', serif; }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(145deg, #fce4ec 0%, #f8bbd0 100%);
-            padding: 16px;
-            margin: 0;
-        }
+  body {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0d0d1f 55%, #05050f 100%);
+    padding: 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
 
-        .container {
-            max-width: 420px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 48px 48px 32px 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            padding: 32px 24px 40px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
+  /* Звёзды на фоне */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 18%, #fff8e1 50%, transparent 50%),
+      radial-gradient(1px 1px at 28% 42%, #ffe082 50%, transparent 50%),
+      radial-gradient(1.8px 1.8px at 45% 12%, #ffffff 50%, transparent 50%),
+      radial-gradient(1px 1px at 63% 35%, #fff8e1 50%, transparent 50%),
+      radial-gradient(1.5px 1.5px at 78% 20%, #ffe082 50%, transparent 50%),
+      radial-gradient(1px 1px at 88% 55%, #ffffff 50%, transparent 50%),
+      radial-gradient(1.2px 1.2px at 8% 70%, #fff8e1 50%, transparent 50%),
+      radial-gradient(1px 1px at 35% 85%, #ffe082 50%, transparent 50%),
+      radial-gradient(1.6px 1.6px at 55% 72%, #ffffff 50%, transparent 50%),
+      radial-gradient(1px 1px at 72% 88%, #fff8e1 50%, transparent 50%),
+      radial-gradient(1.2px 1.2px at 92% 78%, #ffe082 50%, transparent 50%),
+      radial-gradient(1px 1px at 20% 50%, #ffffff 50%, transparent 50%);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+    animation: twinkle 6s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { 0% { opacity: 0.45; } 100% { opacity: 0.85; } }
 
-        .hearts-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .heart-float {
-            position: absolute;
-            color: rgba(233, 30, 99, 0.15);
-            font-size: 28px;
-            animation: floatHeart 6s infinite ease-in-out;
-        }
-        @keyframes floatHeart {
-            0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
+  .container {
+    max-width: 480px; width: 100%;
+    background: linear-gradient(160deg, rgba(30, 27, 58, 0.92) 0%, rgba(16, 14, 34, 0.95) 100%);
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 2px #b8860b,
+      0 0 0 5px #1a1a3e,
+      0 0 0 6px #8b6914,
+      0 25px 60px -12px rgba(0, 0, 0, 0.85),
+      0 0 80px rgba(184, 134, 11, 0.12);
+    padding: 30px 22px 36px;
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+  }
 
-        .screen {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            animation: fadeSlide 0.5s ease;
-        }
-        .screen.active {
-            display: flex;
-        }
+  /* Уголки-рамки как у старинных книг */
+  .container::before, .container::after {
+    content: '✦';
+    position: absolute;
+    color: #d4af37;
+    font-size: 18px;
+    opacity: 0.55;
+  }
+  .container::before { top: 10px; left: 14px; }
+  .container::after { bottom: 10px; right: 14px; }
 
-        @keyframes fadeSlide {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+  .screen {
+    display: none; flex-direction: column; align-items: center; text-align: center;
+    position: relative; z-index: 2; animation: fadeSlide 0.5s ease;
+  }
+  .screen.active { display: flex; }
+  @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(24px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #4a148c;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-        h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #6a1b9a;
-            margin-bottom: 12px;
-        }
-        p {
-            font-size: 18px;
-            color: #4e342e;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-        .sub {
-            font-size: 16px;
-            color: #7b5b5b;
-            opacity: 0.8;
-        }
+  h1 {
+    font-size: 27px; font-weight: 700; color: #f0d060;
+    margin-bottom: 8px; letter-spacing: 0.5px;
+    text-shadow: 0 0 18px rgba(240, 208, 96, 0.45);
+  }
+  h2 {
+    font-size: 21px; font-weight: 600; color: #e8c547;
+    margin-bottom: 10px; letter-spacing: 0.4px;
+    text-shadow: 0 0 14px rgba(232, 197, 71, 0.35);
+  }
+  p { font-size: 15px; color: #d8d4e8; line-height: 1.6; margin-bottom: 16px; }
+  .sub { font-size: 13px; color: #a9a3c4; opacity: 0.9; font-style: italic; }
 
-        .btn {
-            background: #d81b60;
-            border: none;
-            color: white;
-            font-size: 20px;
-            font-weight: 600;
-            padding: 16px 40px;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3);
-            width: 100%;
-            max-width: 280px;
-            margin: 8px 0;
-            letter-spacing: 0.5px;
-        }
-        .btn:hover {
-            transform: scale(1.02);
-            background: #c2185b;
-            box-shadow: 0 12px 28px rgba(216, 27, 96, 0.4);
-        }
-        .btn:active {
-            transform: scale(0.96);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #d81b60;
-            color: #d81b60;
-            box-shadow: none;
-        }
-        .btn-outline:hover {
-            background: #d81b60;
-            color: white;
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        .btn-success {
-            background: #2e7d32;
-            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
-        }
-        .btn-success:hover {
-            background: #1b5e20;
-        }
+  .emblem { font-size: 58px; margin-bottom: 6px; filter: drop-shadow(0 0 16px rgba(240, 208, 96, 0.5)); }
 
-        .datetime-group {
-            width: 100%;
-            margin: 12px 0 16px;
-        }
-        .datetime-group label {
-            display: block;
-            text-align: left;
-            font-size: 16px;
-            font-weight: 600;
-            color: #4a148c;
-            margin-bottom: 6px;
-        }
-        .datetime-group input[type="date"],
-        .datetime-group input[type="time"] {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 60px;
-            border: 2px solid #f3e5f5;
-            font-size: 18px;
-            background: white;
-            color: #333;
-            transition: all 0.2s;
-            outline: none;
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .datetime-group input[type="date"]:focus,
-        .datetime-group input[type="time"]:focus {
-            border-color: #d81b60;
-            box-shadow: 0 0 0 4px rgba(216, 27, 96, 0.1);
-        }
-        .datetime-group input[type="date"]::-webkit-calendar-picker-indicator,
-        .datetime-group input[type="time"]::-webkit-calendar-picker-indicator {
-            filter: hue-rotate(320deg) brightness(0.8);
-            cursor: pointer;
-        }
+  .btn {
+    background: linear-gradient(180deg, #d4af37 0%, #a8821a 100%);
+    border: 1px solid #f0d060;
+    color: #1a1a2e;
+    font-family: 'Georgia', serif;
+    font-size: 17px; font-weight: 700;
+    padding: 14px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    width: 100%; max-width: 300px; margin: 8px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(180deg, #f0d060 0%, #c49a24 100%);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 
-        .food-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            margin: 12px 0 18px;
-        }
-        .food-item {
-            background: white;
-            padding: 14px 20px;
-            border-radius: 60px;
-            border: 2px solid #f3e5f5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .food-item.selected {
-            border-color: #d81b60;
-            background: #fce4ec;
-        }
-        .food-item .emoji {
-            font-size: 28px;
-            margin-right: 12px;
-        }
-        .food-item .name {
-            font-size: 18px;
-            font-weight: 500;
-            color: #333;
-            flex: 1;
-            text-align: left;
-        }
-        .food-item .check {
-            color: #d81b60;
-            font-size: 24px;
-            font-weight: bold;
-        }
+  .btn-outline {
+    background: transparent; border: 1px solid #d4af37; color: #e8c547;
+    box-shadow: none;
+  }
+  .btn-outline:hover { background: rgba(212, 175, 55, 0.12); color: #f0d060; }
 
-        .food-skip {
-            background: #fff8e1;
-            border: 2px dashed #ffb300;
-        }
-        .food-skip .name {
-            color: #6d4c00;
-            font-weight: 600;
-        }
-        .food-skip.selected {
-            border-color: #ff8f00;
-            background: #ffe082;
-        }
-        .food-skip.selected .check {
-            color: #e65100;
-        }
+  .btn-success {
+    background: linear-gradient(180deg, #4a8c5a 0%, #2d5a38 100%);
+    border: 1px solid #7fc28f;
+    color: #eaffea;
+  }
+  .btn-success:hover {
+    background: linear-gradient(180deg, #5ca86c 0%, #3a7048 100%);
+    box-shadow: 0 6px 20px rgba(74, 140, 90, 0.4);
+  }
 
-        .restaurant-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            margin: 12px 0 18px;
-        }
-        .restaurant-item {
-            background: white;
-            padding: 14px 20px;
-            border-radius: 60px;
-            border: 2px solid #f3e5f5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .restaurant-item.selected {
-            border-color: #d81b60;
-            background: #fce4ec;
-        }
-        .restaurant-item .emoji {
-            font-size: 28px;
-            margin-right: 12px;
-        }
-        .restaurant-item .name {
-            font-size: 18px;
-            font-weight: 500;
-            color: #333;
-            flex: 1;
-            text-align: left;
-        }
-        .restaurant-item .check {
-            color: #d81b60;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .restaurant-item .address {
-            font-size: 12px;
-            color: #999;
-            display: block;
-            margin-top: 2px;
-        }
+  .progress-wrap { width: 100%; margin-bottom: 18px; }
+  .progress-bar-bg { height: 7px; background: #1a1a3e; border-radius: 10px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.25); }
+  .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #8b6914, #d4af37, #f0d060); border-radius: 10px; transition: width 0.35s ease; box-shadow: 0 0 10px rgba(240, 208, 96, 0.5); }
+  .progress-text { font-size: 11px; color: #c9b26a; margin-top: 6px; text-align: right; letter-spacing: 0.5px; }
 
-        .restaurant-custom {
-            background: #e8f5e9;
-            border: 2px dashed #43a047;
-        }
-        .restaurant-custom .name {
-            color: #1b5e20;
-            font-weight: 600;
-        }
-        .restaurant-custom.selected {
-            border-color: #2e7d32;
-            background: #c8e6c9;
-        }
-        .restaurant-custom.selected .check {
-            color: #1b5e20;
-        }
+  .question-block { width: 100%; text-align: left; margin-bottom: 14px; }
+  .question-block label { display: block; font-size: 13.5px; font-weight: 600; color: #e8c547; margin-bottom: 6px; line-height: 1.4; letter-spacing: 0.2px; }
+  .question-block textarea {
+    width: 100%; box-sizing: border-box;
+    border: 1px solid #3a3558;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    background: rgba(10, 9, 22, 0.85);
+    color: #e8e4f5;
+    resize: vertical; min-height: 44px;
+    outline: none; transition: all 0.2s;
+  }
+  .question-block textarea::placeholder { color: #5a5478; font-style: italic; }
+  .question-block textarea:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15), inset 0 0 8px rgba(212, 175, 55, 0.06);
+    background: rgba(14, 12, 28, 0.95);
+  }
 
-        .custom-place-wrapper {
-            width: 100%;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.3s ease;
-            opacity: 0;
-            margin: 0;
-        }
-        .custom-place-wrapper.visible {
-            max-height: 160px;
-            opacity: 1;
-            margin: 4px 0 12px;
-        }
-        .custom-place-wrapper label {
-            display: block;
-            text-align: left;
-            font-size: 15px;
-            font-weight: 600;
-            color: #1b5e20;
-            margin-bottom: 6px;
-        }
-        .custom-place-wrapper input {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 60px;
-            border: 2px solid #c8e6c9;
-            font-size: 17px;
-            background: white;
-            color: #333;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .custom-place-wrapper input:focus {
-            border-color: #2e7d32;
-            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
-        }
+  .block-title { font-size: 17px; font-weight: 700; color: #f0d060; margin: 4px 0 12px; text-align: center; width: 100%; letter-spacing: 0.5px; }
 
-        .final-card {
-            background: white;
-            border-radius: 32px;
-            padding: 20px 24px;
-            width: 100%;
-            margin: 12px 0;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            text-align: left;
-        }
-        .final-card .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f3e5f5;
-        }
-        .final-card .row:last-child {
-            border-bottom: none;
-        }
-        .final-card .label {
-            color: #7b5b5b;
-            font-weight: 500;
-        }
-        .final-card .value {
-            color: #4a148c;
-            font-weight: 600;
-            text-align: right;
-            max-width: 60%;
-        }
-        .confetti {
-            font-size: 48px;
-            margin: 8px 0;
-        }
-        .status-ok {
-            color: #2e7d32;
-        }
-        .status-error {
-            color: #c62828;
-        }
+  .final-card {
+    background: rgba(10, 9, 22, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 10px;
+    padding: 16px 18px; width: 100%;
+    margin: 10px 0;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+    text-align: left;
+    max-height: 260px; overflow-y: auto;
+  }
+  .final-card::-webkit-scrollbar { width: 6px; }
+  .final-card::-webkit-scrollbar-track { background: #1a1a3e; border-radius: 3px; }
+  .final-card::-webkit-scrollbar-thumb { background: #b8860b; border-radius: 3px; }
+  .final-card .block-name { font-size: 12px; font-weight: 700; color: #d4af37; margin: 10px 0 6px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .final-card .block-name:first-child { margin-top: 0; }
+  .final-card .qa { font-size: 13px; color: #d8d4e8; line-height: 1.45; margin-bottom: 8px; }
+  .final-card .qa .q { color: #a9a3c4; font-weight: 600; }
+  .final-card .qa .a { color: #f0d060; }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 24px 16px 32px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            .btn {
-                font-size: 18px;
-                padding: 14px 24px;
-            }
-        }
-    </style>
+  .confetti { font-size: 44px; margin: 4px 0; filter: drop-shadow(0 0 16px rgba(240, 208, 96, 0.6)); }
+  .status-ok { color: #7fc28f; font-size: 13px; margin-top: 6px; }
+  .status-error { color: #e57373; font-size: 13px; margin-top: 6px; }
+
+  @media (max-width: 480px) {
+    .container { padding: 24px 14px 30px; }
+    h1 { font-size: 23px; }
+    .btn { font-size: 15px; padding: 13px 20px; }
+    .emblem { font-size: 50px; }
+  }
+</style>
 </head>
 <body>
 
 <div class="container" id="app">
-    <div class="hearts-bg" id="heartsContainer"></div>
 
-    <!-- ===== ЭКРАН 1: ПРИГЛАШЕНИЕ ===== -->
-    <div class="screen active" id="screen1">
-        <div style="font-size: 72px; margin-bottom: 8px;">💌</div>
-        <h1>Привет, красавица!</h1>
-        <p style="font-size: 20px;">Я хочу пригласить тебя на <br><strong>самое лучшее свидание</strong> 🌹</p>
-        <p class="sub">Ты согласна провести этот вечер со мной?</p>
-        <button class="btn" onclick="goToScreen(2)">ДА, СОГЛАСНА! ❤️</button>
-        <button class="btn btn-outline" onclick="goToScreen(2)" style="margin-top: 0;">Конечно, да!</button>
-    </div>
+  <!-- ЭКРАН 1: ПРИВЕТСТВИЕ -->
+  <div class="screen active" id="screen0">
+    <!-- Заменили палочку на безопасную звездочку -->
+    <div class="emblem">⚡✨</div>
+    <h1>Привет, подруга!</h1>
+    <p>Хочу закрепить знания о тебе.</p>
+    <p class="sub">Ответь на несколько вопросов — это займёт пару минут. Твои ответы придут мне.</p>
+    <button class="btn" onclick="startSurvey()">Начать опрос</button>
+  </div>
 
-    <!-- ===== ЭКРАН 2: ПОДТВЕРЖДЕНИЕ ===== -->
-    <div class="screen" id="screen2">
-        <div style="font-size: 64px; margin-bottom: 4px;">🥳</div>
-        <h2>Ура! Я так рад!</h2>
-        <p>Ты сделала мой день!<br>Теперь давай выберем детали, чтобы всё прошло идеально ✨</p>
-        <button class="btn" onclick="goToScreen(3)">Выбрать дату 📅</button>
-    </div>
+  <!-- ЭКРАНЫ ВОПРОСОВ генерируются скриптом -->
+  <div id="questionScreens"></div>
 
-    <!-- ===== ЭКРАН 3: ДАТА И ВРЕМЯ ===== -->
-    <div class="screen" id="screen3">
-        <h2>🗓 Когда гуляем?</h2>
-        <p class="sub">Выбери день и время, которое тебе удобно</p>
-
-        <div class="datetime-group">
-            <label for="datePicker">📅 Дата</label>
-            <input type="date" id="datePicker" onchange="checkDateTime()">
-        </div>
-
-        <div class="datetime-group">
-            <label for="timePicker">⏰ Время</label>
-            <input type="time" id="timePicker" onchange="checkDateTime()">
-        </div>
-
-        <p id="dateHint" style="font-size: 14px; margin-top: 4px; color: #7b5b5b;">* выбери дату и время</p>
-
-        <button class="btn" onclick="goToScreen(4)" id="nextToFood" disabled>Выбрать меню 🍽</button>
-    </div>
-
-    <!-- ===== ЭКРАН 4: БЛЮДА ===== -->
-    <div class="screen" id="screen4">
-        <h2>🍕 Что будем есть?</h2>
-        <p class="sub">Выбери, что хочешь попробовать (можно несколько)</p>
-        <div class="food-grid" id="foodGrid">
-            <div class="food-item" data-food="Пицца Маргарита" onclick="toggleFood(this)">
-                <span class="emoji">🍕</span>
-                <span class="name">Пицца Маргарита</span>
-                <span class="check"> </span>
-            </div>
-            <div class="food-item" data-food="Паста Карбонара" onclick="toggleFood(this)">
-                <span class="emoji">🍝</span>
-                <span class="name">Паста Карбонара</span>
-                <span class="check"> </span>
-            </div>
-            <div class="food-item" data-food="Сырное мороженное" onclick="toggleFood(this)">
-                <span class="emoji">🍦</span>
-                <span class="name">Сырное мороженное</span>
-                <span class="check"> </span>
-            </div>
-            <div class="food-item" data-food="Тирамису" onclick="toggleFood(this)">
-                <span class="emoji">🍰</span>
-                <span class="name">Тирамису</span>
-                <span class="check"> </span>
-            </div>
-            <div class="food-item" data-food="Хинкали" onclick="toggleFood(this)">
-                <span class="emoji">🥟</span>
-                <span class="name">Хинкали</span>
-                <span class="check"> </span>
-            </div>
-            <div class="food-item food-skip" id="skipFoodOption" onclick="toggleSkipFood(this)">
-                <span class="emoji">🚶‍♀️</span>
-                <span class="name">Просто погуляем, потом решим</span>
-                <span class="check"> </span>
-            </div>
-        </div>
-        <button class="btn" onclick="goToScreen(5)">Выбрать место 🏛</button>
-    </div>
-
-    <!-- ===== ЭКРАН 5: МЕСТО ===== -->
-    <div class="screen" id="screen5">
-        <h2>🏛 Куда пойдём?</h2>
-        <p class="sub">Выбери ресторан или предложи своё место</p>
-        <div class="restaurant-grid" id="restaurantGrid">
-            <div class="restaurant-item" data-restaurant="Васильки" onclick="selectRestaurant(this)">
-                <span class="emoji">🌸</span>
-                <div>
-                    <span class="name">Васильки</span>
-                    <span class="address">📍 Партизанский просп., 150А</span>
-                </div>
-                <span class="check"> </span>
-            </div>
-            <div class="restaurant-item" data-restaurant="Хинкальня" onclick="selectRestaurant(this)">
-                <span class="emoji">🥟</span>
-                <div>
-                    <span class="name">Хинкальня</span>
-                    <span class="address">📍 Партизанский просп., 150А</span>
-                </div>
-                <span class="check"> </span>
-            </div>
-            <div class="restaurant-item" data-restaurant="Пицца Темпо" onclick="selectRestaurant(this)">
-                <span class="emoji">🍕</span>
-                <div>
-                    <span class="name">Пицца Темпо</span>
-                    <span class="address">📍 Партизанский просп., 150А</span>
-                </div>
-                <span class="check"> </span>
-            </div>
-            <div class="restaurant-item" data-restaurant="Garage" onclick="selectRestaurant(this)">
-                <span class="emoji">🥣</span>
-                <div>
-                    <span class="name">Garage</span>
-                    <span class="address">📍 Немига, 5</span>
-                </div>
-                <span class="check"> </span>
-            </div>
-            <div class="restaurant-item" data-restaurant="Давай устроим наш день" onclick="selectRestaurant(this)">
-                <span class="emoji">⛺️</span>
-                <div>
-                    <span class="name">Давай устроим наш день</span>
-                    <span class="address">📍 Выберем когда проголодаемся</span>
-                </div>
-                <span class="check"> </span>
-            </div>
-
-            <div class="restaurant-item restaurant-custom" id="customRestaurantOption" onclick="toggleCustomRestaurant(this)">
-                <span class="emoji">✍️</span>
-                <span class="name">Свой вариант — напишу сама</span>
-                <span class="check"> </span>
-            </div>
-        </div>
-
-        <div class="custom-place-wrapper" id="customPlaceWrapper">
-            <label for="customPlaceInput">📍 Куда хочешь пойти?</label>
-            <input type="text" id="customPlaceInput" placeholder="Например: на набережную..." oninput="onCustomPlaceInput()">
-        </div>
-
-        <button class="btn" onclick="goToScreen(6)" id="nextToFinal" disabled>Показать план 💫</button>
-        <p class="sub" id="restaurantHint" style="font-size: 14px; margin-top: 4px;">* выбери ресторан или напиши своё место</p>
-    </div>
-
-    <!-- ===== ЭКРАН 6: ФИНАЛ ===== -->
-    <div class="screen" id="screen6">
-        <div class="confetti">🎉💖🎉</div>
-        <h2>Всё готово!</h2>
-        <p>Ты — лучшая! Я уже всё подготовил 😍</p>
-        <div class="final-card" id="finalSummary">
-            <div class="row"><span class="label">📅 Дата</span><span class="value" id="finalDate">—</span></div>
-            <div class="row"><span class="label">⏰ Время</span><span class="value" id="finalTime">—</span></div>
-            <div class="row"><span class="label">🍽 Меню</span><span class="value" id="finalFood">—</span></div>
-            <div class="row"><span class="label">🏛 Место</span><span class="value" id="finalRestaurant">—</span></div>
-            <div class="row"><span class="label">📍 Адрес</span><span class="value" id="finalAddress">—</span></div>
-        </div>
-        <p style="font-size: 14px; color: #777; margin-top: 8px;">❤️ Я тебя очень жду ❤️</p>
-
-        <button class="btn btn-success" onclick="sendNotification()" id="sendBtn">
-            📨 Отправить организатору
-        </button>
-        <p id="sendStatus" style="font-size: 14px; margin-top: 6px;"></p>
-
-        <button class="btn" onclick="resetAll()" style="background: #7b5b5b; box-shadow: none; margin-top: 4px;">Начать заново 🔄</button>
-    </div>
+  <!-- ФИНАЛЬНЫЙ ЭКРАН -->
+  <div class="screen" id="screenFinal">
+    <div class="confetti">📜✨</div>
+    <h2>Свиток готов!</h2>
+    <p class="sub">Проверь ответы и отправь мне.</p>
+    <div class="final-card" id="finalSummary"></div>
+    <button class="btn btn-success" onclick="sendNotification()" id="sendBtn">📨 Отправить организатору</button>
+    <p id="sendStatus"></p>
+    <button class="btn btn-outline" onclick="resetAll()" style="margin-top:4px;">Начать заново</button>
+  </div>
 
 </div>
 
 <script>
-    // ============================================================
-    // 🔧 НАСТРОЙКИ
-    // ============================================================
-    const CONFIG = {
-        BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI",
-        CHAT_ID: "943862860",
-    };
-    // ============================================================
+  // ============================================================
+  // 🔧 НАСТРОЙКИ
+  // ============================================================
+  const CONFIG = {
+    BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI",
+    CHAT_ID: "943862860",
+  };
+  // ============================================================
 
-    let selectedDate = null;
-    let selectedTime = null;
-    let selectedFoods = [];
-    let selectedRestaurant = null;
-    let selectedAddress = '';
-    let notificationSent = false;
-    let skipFoodSelected = false;
-    let customRestaurantSelected = false;
-    let customPlaceText = '';
+  // Блоки вопросов — можно менять/добавлять
+  const BLOCKS = [
+    {
+      name: "🎨 Вкусы и предпочтения",
+      questions: [
+        "Любимый цвет и почему именно он?",
+        "Любимый фильм или сериал, который можешь пересматривать бесконечно?",
+        "Книга, которая тебя больше всего впечатлила?",
+        "Любимая музыка/исполнитель под настроение?",
+        "Есть блюдо, которое ты готова есть всегда?"
+      ]
+    },
+    {
+      name: "💭 Ценности и характер",
+      questions: [
+        "Что для тебя важнее: сделать идеально или сделать вовремя?",
+        "За что тебе было бы стыдно перед самой собой?",
+        "Какое качество в людях ты ценишь больше всего?",
+        "Что мгновенно выводит тебя из себя в общении?",
+        "Ты скорее человек привычки или любишь перемены?"
+      ]
+    },
+    {
+      name: "⚡ Энергия и отдых",
+      questions: [
+        "Ты заряжаешься в компании людей или наедине с собой?",
+        "Как выглядит твой идеальный выходной, если ты предоставлена сама себе?",
+        "Как ты восстанавливаешься после тяжёлой недели?",
+        "Ты «жаворонок» или «сова»?",
+        "Обсуждаешь проблему сразу или сначала «переспишь» с ней?"
+      ]
+    },
+    {
+      name: "🚀 Мечты, прошлое и будущее",
+      questions: [
+        "Какой совет ты бы дала себе 5 лет назад?",
+        "Если бы деньги не имели значения, чем бы ты занималась прямо сейчас?",
+        "О чём ты мечтаешь, но пока не решаешься?",
+        "Какое путешествие запомнилось тебе больше всего?",
+        "Чему ты хочешь научиться в ближайший год?"
+      ]
+    },
+    {
+      name: "😄 Лёгкое и неожиданное",
+      questions: [
+        "Какой самый странный или бесполезный талант у тебя есть?",
+        "За что ты последний раз искренне благодарила кого-то (или жизнь в целом)?",
+        "Какой вопрос ты бы хотела задать мне в ответ, чтобы он остался между нами?",
+        "Любимое место, где тебе по-настоящему хорошо?",
+        "Вещь, без которой не выходишь из дома?"
+      ]
+    }
+  ];
 
-    function goToScreen(num) {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        const target = document.getElementById('screen' + num);
-        if (target) target.classList.add('active');
-        if (num === 6) updateFinalScreen();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+  let currentBlock = 0;
+  let answers = [];
+  let notificationSent = false;
+
+  function initAnswers() {
+    answers = BLOCKS.map(b => b.questions.map(() => ""));
+  }
+  initAnswers();
+
+  function buildQuestionScreens() {
+    const wrap = document.getElementById('questionScreens');
+    wrap.innerHTML = '';
+    BLOCKS.forEach((block, bi) => {
+      const screen = document.createElement('div');
+      screen.className = 'screen';
+      screen.id = 'screenQ' + bi;
+      screen.innerHTML = `
+        <div class="progress-wrap">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill${bi}"></div></div>
+          <div class="progress-text">Блок ${bi + 1} из ${BLOCKS.length}</div>
+        </div>
+        <div class="block-title">${block.name}</div>
+        <div id="questionsWrap${bi}" style="width:100%;"></div>
+        <button class="btn" id="nextBtn${bi}" onclick="nextBlock(${bi})" disabled>Далее →</button>
+      `;
+      wrap.appendChild(screen);
+
+      const qWrap = screen.querySelector('#questionsWrap' + bi);
+      block.questions.forEach((q, qi) => {
+        const div = document.createElement('div');
+        div.className = 'question-block';
+        div.innerHTML = `
+          <label>${bi * 5 + qi + 1}. ${q}</label>
+          <textarea id="ans-${bi}-${qi}" placeholder="Твой ответ..." oninput="onAnswerInput(${bi}, ${qi})"></textarea>
+        `;
+        qWrap.appendChild(div);
+      });
+    });
+  }
+  buildQuestionScreens();
+
+  function onAnswerInput(bi, qi) {
+    const ta = document.getElementById(`ans-${bi}-${qi}`);
+    answers[bi][qi] = ta.value.trim();
+    updateNextButton(bi);
+    updateProgress(bi);
+  }
+
+  function updateNextButton(bi) {
+    const btn = document.getElementById('nextBtn' + bi);
+    const filled = answers[bi].every(a => a.length > 0);
+    btn.disabled = !filled;
+    btn.textContent = filled ? 'Далее →' : 'Заполни все поля...';
+  }
+
+  function updateProgress(bi) {
+    const fill = document.getElementById('progressFill' + bi);
+    if (!fill) return;
+    const filled = answers[bi].filter(a => a.length > 0).length;
+    const total = answers[bi].length;
+    fill.style.width = (filled / total * 100) + '%';
+  }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function startSurvey() {
+    currentBlock = 0;
+    showScreen('screenQ0');
+    updateNextButton(0);
+    updateProgress(0);
+  }
+
+  function nextBlock(bi) {
+    if (bi < BLOCKS.length - 1) {
+      currentBlock = bi + 1;
+      showScreen('screenQ' + currentBlock);
+      updateNextButton(currentBlock);
+      updateProgress(currentBlock);
+    } else {
+      showFinal();
+    }
+  }
+
+  function showFinal() {
+    const summary = document.getElementById('finalSummary');
+    summary.innerHTML = '';
+    BLOCKS.forEach((block, bi) => {
+      const bn = document.createElement('div');
+      bn.className = 'block-name';
+      bn.textContent = block.name;
+      summary.appendChild(bn);
+      block.questions.forEach((q, qi) => {
+        const qa = document.createElement('div');
+        qa.className = 'qa';
+        qa.innerHTML = `<span class="q">${q}</span><br><span class="a">${answers[bi][qi] || '—'}</span>`;
+        summary.appendChild(qa);
+      });
+    });
+
+    notificationSent = false;
+    const status = document.getElementById('sendStatus');
+    status.textContent = '';
+    status.className = '';
+    const btn = document.getElementById('sendBtn');
+    btn.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '📨 Отправить организатору';
+
+    showScreen('screenFinal');
+  }
+
+  async function sendNotification() {
+    const btn = document.getElementById('sendBtn');
+    const status = document.getElementById('sendStatus');
+
+    if (notificationSent) {
+      status.textContent = '✅ Уже отправлено!';
+      status.className = 'status-ok';
+      return;
     }
 
-    function checkDateTime() {
-        const dateInput = document.getElementById('datePicker');
-        const timeInput = document.getElementById('timePicker');
-        const hint = document.getElementById('dateHint');
-        const btn = document.getElementById('nextToFood');
+    btn.disabled = true;
+    btn.textContent = '⏳ Отправляю...';
+    status.textContent = '⏳ Отправка...';
+    status.className = '';
 
-        selectedDate = dateInput.value;
-        selectedTime = timeInput.value;
+    let message = '⚡ ОТВЕТЫ НА ОПРОСНИК ⚡\n\n';
+    BLOCKS.forEach((block, bi) => {
+      message += block.name + '\n';
+      block.questions.forEach((q, qi) => {
+        message += `${bi * 5 + qi + 1}. ${q}\n   ${answers[bi][qi] || '—'}\n`;
+      });
+      message += '\n';
+    });
 
-        if (selectedDate && selectedTime) {
-            btn.disabled = false;
-            hint.textContent = '✅ отлично! ' + formatDate(selectedDate) + ' в ' + selectedTime;
-            hint.style.color = '#2e7d32';
-        } else {
-            btn.disabled = true;
-            hint.textContent = '* выбери дату и время';
-            hint.style.color = '#7b5b5b';
-        }
+    try {
+      const url = `https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CONFIG.CHAT_ID,
+          text: message,
+        })
+      });
+      const data = await response.json();
+      if (data.ok) {
+        status.textContent = '✅ Ответы отправлены!';
+        status.className = 'status-ok';
+        notificationSent = true;
+        btn.style.display = 'none';
+      } else {
+        throw new Error(data.description || 'Неизвестная ошибка');
+      }
+    } catch (error) {
+      console.error('❌ Ошибка:', error);
+      status.textContent = '❌ ' + error.message;
+      status.className = 'status-error';
+      btn.disabled = false;
+      btn.textContent = '📨 Попробовать снова';
     }
+  }
 
-    function formatDate(dateStr) {
-        if (!dateStr) return '';
-        const parts = dateStr.split('-');
-        const year = parts[0];
-        const month = parseInt(parts[1]) - 1;
-        const day = parseInt(parts[2]);
-        const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-            'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-        return day + ' ' + months[month] + ' ' + year;
-    }
+  function resetAll() {
+    initAnswers();
+    currentBlock = 0;
+    notificationSent = false;
 
-    function toggleFood(el) {
-        if (skipFoodSelected) return;
+    document.querySelectorAll('.question-block textarea').forEach(ta => ta.value = '');
+    document.querySelectorAll('.progress-bar-fill').forEach(f => f.style.width = '0%');
+    BLOCKS.forEach((_, bi) => updateNextButton(bi));
 
-        el.classList.toggle('selected');
-        const foodName = el.dataset.food;
-        const checkSpan = el.querySelector('.check');
-        if (el.classList.contains('selected')) {
-            checkSpan.textContent = '✅';
-            if (!selectedFoods.includes(foodName)) selectedFoods.push(foodName);
-        } else {
-            checkSpan.textContent = ' ';
-            selectedFoods = selectedFoods.filter(f => f !== foodName);
-        }
-    }
+    const status = document.getElementById('sendStatus');
+    status.textContent = '';
+    status.className = '';
+    const btn = document.getElementById('sendBtn');
+    btn.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '📨 Отправить организатору';
 
-    function toggleSkipFood(el) {
-        skipFoodSelected = !skipFoodSelected;
-        const checkSpan = el.querySelector('.check');
+    showScreen('screen0');
+  }
 
-        if (skipFoodSelected) {
-            el.classList.add('selected');
-            checkSpan.textContent = '✅';
-            selectedFoods = [];
-
-            document.querySelectorAll('.food-item:not(.food-skip)').forEach(item => {
-                item.classList.remove('selected');
-                item.querySelector('.check').textContent = ' ';
-                item.style.opacity = '0.45';
-                item.style.pointerEvents = 'none';
-            });
-        } else {
-            el.classList.remove('selected');
-            checkSpan.textContent = ' ';
-            document.querySelectorAll('.food-item:not(.food-skip)').forEach(item => {
-                item.style.opacity = '1';
-                item.style.pointerEvents = 'auto';
-            });
-        }
-    }
-
-    function selectRestaurant(el) {
-        document.querySelectorAll('.restaurant-item').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-
-        customRestaurantSelected = false;
-        customPlaceText = '';
-        document.getElementById('customPlaceInput').value = '';
-        document.getElementById('customPlaceWrapper').classList.remove('visible');
-
-        selectedRestaurant = el.dataset.restaurant;
-        const addressEl = el.querySelector('.address');
-        selectedAddress = addressEl ? addressEl.textContent.replace('📍 ', '') : 'Адрес не указан';
-
-        // Возвращаем обычным пунктам активность
-        document.querySelectorAll('.restaurant-item:not(.restaurant-custom)').forEach(item => {
-            item.style.opacity = '1';
-            item.style.pointerEvents = 'auto';
-        });
-
-        updateRestaurantButton();
-    }
-
-    function toggleCustomRestaurant(el) {
-        customRestaurantSelected = !customRestaurantSelected;
-        const checkSpan = el.querySelector('.check');
-        const wrapper = document.getElementById('customPlaceWrapper');
-        const input = document.getElementById('customPlaceInput');
-
-        if (customRestaurantSelected) {
-            document.querySelectorAll('.restaurant-item:not(.restaurant-custom)').forEach(item => {
-                item.classList.remove('selected');
-                item.querySelector('.check').textContent = ' ';
-                item.style.opacity = '0.45';
-                item.style.pointerEvents = 'none';
-            });
-
-            el.classList.add('selected');
-            checkSpan.textContent = '✅';
-
-            wrapper.classList.add('visible');
-            setTimeout(() => input.focus(), 350);
-
-            selectedRestaurant = null;
-            selectedAddress = '';
-        } else {
-            el.classList.remove('selected');
-            checkSpan.textContent = ' ';
-            document.querySelectorAll('.restaurant-item:not(.restaurant-custom)').forEach(item => {
-                item.style.opacity = '1';
-                item.style.pointerEvents = 'auto';
-            });
-
-            wrapper.classList.remove('visible');
-            input.value = '';
-            customPlaceText = '';
-        }
-
-        updateRestaurantButton();
-    }
-
-    function onCustomPlaceInput() {
-        const input = document.getElementById('customPlaceInput');
-        customPlaceText = input.value.trim();
-        updateRestaurantButton();
-    }
-
-    function updateRestaurantButton() {
-        const btn = document.getElementById('nextToFinal');
-        const hint = document.getElementById('restaurantHint');
-
-        if (customRestaurantSelected) {
-            if (customPlaceText.length > 0) {
-                btn.disabled = false;
-                hint.textContent = '✅ отлично! Твоё место: ' + customPlaceText;
-                hint.style.color = '#2e7d32';
-            } else {
-                btn.disabled = true;
-                hint.textContent = '✍️ напиши, куда хочешь пойти';
-                hint.style.color = '#e65100';
-            }
-        } else if (selectedRestaurant) {
-            btn.disabled = false;
-            hint.textContent = '✅ отлично!';
-            hint.style.color = '#2e7d32';
-        } else {
-            btn.disabled = true;
-            hint.textContent = '* выбери ресторан или напиши своё место';
-            hint.style.color = '#7b5b5b';
-        }
-    }
-
-    function updateFinalScreen() {
-        const dateStr = selectedDate ? formatDate(selectedDate) : 'Не выбрана';
-        document.getElementById('finalDate').textContent = dateStr;
-        document.getElementById('finalTime').textContent = selectedTime || '—';
-
-        let foodText;
-        if (skipFoodSelected) {
-            foodText = 'Просто погуляем, потом решим 🚶‍♀️';
-        } else if (selectedFoods.length > 0) {
-            foodText = selectedFoods.join(', ');
-        } else {
-            foodText = 'Будет сюрприз';
-        }
-        document.getElementById('finalFood').textContent = foodText;
-
-        let restaurantText, addressText;
-        if (customRestaurantSelected && customPlaceText) {
-            restaurantText = '✍️ ' + customPlaceText;
-            addressText = 'Она выбрала сама 💚';
-        } else {
-            restaurantText = selectedRestaurant || 'Не выбран';
-            addressText = selectedAddress || '—';
-        }
-        document.getElementById('finalRestaurant').textContent = restaurantText;
-        document.getElementById('finalAddress').textContent = addressText;
-
-        notificationSent = false;
-        document.getElementById('sendStatus').textContent = '';
-        document.getElementById('sendStatus').className = '';
-        document.getElementById('sendBtn').style.display = 'block';
-        document.getElementById('sendBtn').disabled = false;
-        document.getElementById('sendBtn').textContent = '📨 Отправить организатору';
-    }
-
-    async function sendNotification() {
-        const btn = document.getElementById('sendBtn');
-        const status = document.getElementById('sendStatus');
-
-        if (!selectedDate || !selectedTime) {
-            status.textContent = '⚠️ Выбери дату и время!';
-            status.className = 'status-error';
-            return;
-        }
-        if (!skipFoodSelected && selectedFoods.length === 0) {
-            status.textContent = '⚠️ Выбери блюда или нажми «Просто погуляем»!';
-            status.className = 'status-error';
-            return;
-        }
-
-        const hasPlace = customRestaurantSelected
-            ? customPlaceText.length > 0
-            : !!selectedRestaurant;
-
-        if (!hasPlace) {
-            status.textContent = '⚠️ Выбери ресторан или напиши своё место!';
-            status.className = 'status-error';
-            return;
-        }
-
-        if (notificationSent) {
-            status.textContent = '✅ Уже отправлено!';
-            status.className = 'status-ok';
-            return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = '⏳ Отправляю...';
-        status.textContent = '⏳ Отправка...';
-        status.className = '';
-
-        const dateStr = formatDate(selectedDate);
-        const foodLine = skipFoodSelected
-            ? 'Просто погуляем, потом решим 🚶‍♀️'
-            : selectedFoods.join(', ');
-
-        let placeLine, addressLine;
-        if (customRestaurantSelected && customPlaceText) {
-            placeLine = '✍️ Свой вариант: ' + customPlaceText;
-            addressLine = 'Она выбрала сама 💚';
-        } else {
-            placeLine = selectedRestaurant;
-            addressLine = selectedAddress;
-        }
-
-        const message = `💖 НОВОЕ ПРИГЛАШЕНИЕ НА СВИДАНИЕ! 💖
-
-📅 Дата: ${dateStr}
-⏰ Время: ${selectedTime}
-🍽 Меню: ${foodLine}
-🏛 Место: ${placeLine}
-📍 Адрес: ${addressLine}
-
-❤️ Она согласилась! Всё готово к свиданию!`;
-
-        try {
-            const url = `https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CONFIG.CHAT_ID,
-                    text: message,
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.ok) {
-                status.textContent = '✅ Организатор уведомлён! ❤️';
-                status.className = 'status-ok';
-                notificationSent = true;
-                btn.style.display = 'none';
-            } else {
-                throw new Error(data.description || 'Неизвестная ошибка');
-            }
-        } catch (error) {
-            console.error('❌ Ошибка:', error);
-            status.textContent = '❌ ' + error.message;
-            status.className = 'status-error';
-            btn.disabled = false;
-            btn.textContent = '📨 Попробовать снова';
-        }
-    }
-
-    function resetAll() {
-        selectedDate = null;
-        selectedTime = null;
-        selectedFoods = [];
-        selectedRestaurant = null;
-        selectedAddress = '';
-        notificationSent = false;
-        skipFoodSelected = false;
-        customRestaurantSelected = false;
-        customPlaceText = '';
-
-        document.getElementById('datePicker').value = '';
-        document.getElementById('timePicker').value = '';
-        document.getElementById('nextToFood').disabled = true;
-        document.getElementById('dateHint').textContent = '* выбери дату и время';
-        document.getElementById('dateHint').style.color = '#7b5b5b';
-
-        document.querySelectorAll('.food-item').forEach(el => {
-            el.classList.remove('selected');
-            el.querySelector('.check').textContent = ' ';
-            el.style.opacity = '1';
-            el.style.pointerEvents = 'auto';
-        });
-
-        document.querySelectorAll('.restaurant-item').forEach(el => {
-            el.classList.remove('selected');
-            el.querySelector('.check').textContent = ' ';
-            el.style.opacity = '1';
-            el.style.pointerEvents = 'auto';
-        });
-
-        document.getElementById('customPlaceInput').value = '';
-        document.getElementById('customPlaceWrapper').classList.remove('visible');
-
-        document.getElementById('nextToFinal').disabled = true;
-        document.getElementById('restaurantHint').textContent = '* выбери ресторан или напиши своё место';
-        document.getElementById('restaurantHint').style.color = '#7b5b5b';
-
-        document.getElementById('sendBtn').style.display = 'block';
-        document.getElementById('sendBtn').disabled = false;
-        document.getElementById('sendBtn').textContent = '📨 Отправить организатору';
-        document.getElementById('sendStatus').textContent = '';
-        document.getElementById('sendStatus').className = '';
-
-        goToScreen(1);
-    }
-
-    function createHearts() {
-        const container = document.getElementById('heartsContainer');
-        const heartSymbols = ['❤️', '💖', '💕', '💗', '♥️'];
-        for (let i = 0; i < 12; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'heart-float';
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.fontSize = (16 + Math.random() * 28) + 'px';
-            heart.style.animationDuration = (8 + Math.random() * 10) + 's';
-            heart.style.animationDelay = (Math.random() * 12) + 's';
-            container.appendChild(heart);
-        }
-    }
-    createHearts();
-
-    console.log('💖 Сайт загружен!');
+  console.log('⚡ Опросник загружен!');
 </script>
 </body>
 </html>
