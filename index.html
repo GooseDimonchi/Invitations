@@ -3,187 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Опросник для подруги ⚡</title>
+<title>Протокол выживания 🧟‍♂️</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Georgia', 'Times New Roman', serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
 
   body {
     display: flex; justify-content: center; align-items: center;
     min-height: 100vh;
-    background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0d0d1f 55%, #05050f 100%);
+    background: #0a0f0a;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(30, 50, 30, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(50, 30, 20, 0.4) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);
     padding: 16px;
     position: relative;
     overflow-x: hidden;
+    color: #b3c9b3;
   }
 
-  /* Звёзды на фоне */
+  /* Пятна крови/грязи */
   body::before {
     content: '';
     position: fixed; inset: 0;
-    background-image:
-      radial-gradient(1.5px 1.5px at 12% 18%, #fff8e1 50%, transparent 50%),
-      radial-gradient(1px 1px at 28% 42%, #ffe082 50%, transparent 50%),
-      radial-gradient(1.8px 1.8px at 45% 12%, #ffffff 50%, transparent 50%),
-      radial-gradient(1px 1px at 63% 35%, #fff8e1 50%, transparent 50%),
-      radial-gradient(1.5px 1.5px at 78% 20%, #ffe082 50%, transparent 50%),
-      radial-gradient(1px 1px at 88% 55%, #ffffff 50%, transparent 50%),
-      radial-gradient(1.2px 1.2px at 8% 70%, #fff8e1 50%, transparent 50%),
-      radial-gradient(1px 1px at 35% 85%, #ffe082 50%, transparent 50%),
-      radial-gradient(1.6px 1.6px at 55% 72%, #ffffff 50%, transparent 50%),
-      radial-gradient(1px 1px at 72% 88%, #fff8e1 50%, transparent 50%),
-      radial-gradient(1.2px 1.2px at 92% 78%, #ffe082 50%, transparent 50%),
-      radial-gradient(1px 1px at 20% 50%, #ffffff 50%, transparent 50%);
-    opacity: 0.7;
+    background: 
+      radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 20%),
+      radial-gradient(circle at 20% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 30%);
     pointer-events: none;
     z-index: 0;
-    animation: twinkle 6s ease-in-out infinite alternate;
   }
-  @keyframes twinkle { 0% { opacity: 0.45; } 100% { opacity: 0.85; } }
 
   .container {
-    max-width: 480px; width: 100%;
-    background: linear-gradient(160deg, rgba(30, 27, 58, 0.92) 0%, rgba(16, 14, 34, 0.95) 100%);
-    border-radius: 16px;
-    box-shadow:
-      0 0 0 2px #b8860b,
-      0 0 0 5px #1a1a3e,
-      0 0 0 6px #8b6914,
-      0 25px 60px -12px rgba(0, 0, 0, 0.85),
-      0 0 80px rgba(184, 134, 11, 0.12);
+    max-width: 500px; width: 100%;
+    background: rgba(15, 20, 15, 0.95);
+    border: 2px solid #3a5a3a;
+    box-shadow: 
+      0 0 20px rgba(58, 90, 58, 0.3),
+      inset 0 0 40px rgba(0,0,0,0.8);
+    border-radius: 4px;
     padding: 30px 22px 36px;
     position: relative;
     z-index: 2;
-    border: 1px solid rgba(255, 215, 0, 0.15);
   }
 
-  /* Уголки-рамки как у старинных книг */
+  /* Уголки-зажимы */
   .container::before, .container::after {
-    content: '✦';
+    content: '■';
     position: absolute;
-    color: #d4af37;
-    font-size: 18px;
-    opacity: 0.55;
+    color: #8b0000;
+    font-size: 14px;
+    opacity: 0.8;
   }
-  .container::before { top: 10px; left: 14px; }
-  .container::after { bottom: 10px; right: 14px; }
+  .container::before { top: 8px; left: 10px; }
+  .container::after { bottom: 8px; right: 10px; }
 
   .screen {
     display: none; flex-direction: column; align-items: center; text-align: center;
-    position: relative; z-index: 2; animation: fadeSlide 0.5s ease;
+    position: relative; z-index: 2; animation: flicker 0.4s ease;
   }
   .screen.active { display: flex; }
-  @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(24px); } 100% { opacity: 1; transform: translateY(0); } }
+  
+  @keyframes flicker { 
+    0% { opacity: 0; filter: blur(2px); } 
+    50% { opacity: 0.5; filter: blur(0px); }
+    100% { opacity: 1; } 
+  }
 
   h1 {
-    font-size: 27px; font-weight: 700; color: #f0d060;
-    margin-bottom: 8px; letter-spacing: 0.5px;
-    text-shadow: 0 0 18px rgba(240, 208, 96, 0.45);
+    font-size: 26px; font-weight: 700; color: #ff4d4d;
+    margin-bottom: 8px; letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+    text-transform: uppercase;
   }
   h2 {
-    font-size: 21px; font-weight: 600; color: #e8c547;
-    margin-bottom: 10px; letter-spacing: 0.4px;
-    text-shadow: 0 0 14px rgba(232, 197, 71, 0.35);
+    font-size: 20px; font-weight: 600; color: #8fbc8f;
+    margin-bottom: 10px; letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
-  p { font-size: 15px; color: #d8d4e8; line-height: 1.6; margin-bottom: 16px; }
-  .sub { font-size: 13px; color: #a9a3c4; opacity: 0.9; font-style: italic; }
+  p { font-size: 14px; color: #a9b8a9; line-height: 1.6; margin-bottom: 16px; }
+  .sub { font-size: 12px; color: #6b7a6b; opacity: 0.9; font-style: italic; }
 
-  .emblem { font-size: 58px; margin-bottom: 6px; filter: drop-shadow(0 0 16px rgba(240, 208, 96, 0.5)); }
+  .emblem { font-size: 54px; margin-bottom: 8px; filter: drop-shadow(0 0 12px rgba(139, 0, 0, 0.6)); }
 
   .btn {
-    background: linear-gradient(180deg, #d4af37 0%, #a8821a 100%);
-    border: 1px solid #f0d060;
-    color: #1a1a2e;
-    font-family: 'Georgia', serif;
-    font-size: 17px; font-weight: 700;
-    padding: 14px 30px;
-    border-radius: 8px;
+    background: linear-gradient(180deg, #2e3e2e 0%, #1a221a 100%);
+    border: 1px solid #5a7a5a;
+    color: #b3c9b3;
+    font-family: 'Courier New', monospace;
+    font-size: 16px; font-weight: 700;
+    padding: 14px 24px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
     width: 100%; max-width: 300px; margin: 8px 0;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
   .btn:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(180deg, #f0d060 0%, #c49a24 100%);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    background: linear-gradient(180deg, #3e5e3e 0%, #2a3a2a 100%);
+    color: #e0f0e0;
+    border-color: #8fbc8f;
+    box-shadow: 0 0 15px rgba(143, 188, 143, 0.3);
   }
-  .btn:active { transform: translateY(0); }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(100%); }
 
-  .btn-outline {
-    background: transparent; border: 1px solid #d4af37; color: #e8c547;
-    box-shadow: none;
+  .btn-danger {
+    background: linear-gradient(180deg, #5c1a1a 0%, #2a0a0a 100%);
+    border: 1px solid #8b0000;
+    color: #ff9999;
   }
-  .btn-outline:hover { background: rgba(212, 175, 55, 0.12); color: #f0d060; }
-
-  .btn-success {
-    background: linear-gradient(180deg, #4a8c5a 0%, #2d5a38 100%);
-    border: 1px solid #7fc28f;
-    color: #eaffea;
-  }
-  .btn-success:hover {
-    background: linear-gradient(180deg, #5ca86c 0%, #3a7048 100%);
-    box-shadow: 0 6px 20px rgba(74, 140, 90, 0.4);
+  .btn-danger:hover {
+    background: linear-gradient(180deg, #7a2020 0%, #3a0a0a 100%);
+    border-color: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
   }
 
   .progress-wrap { width: 100%; margin-bottom: 18px; }
-  .progress-bar-bg { height: 7px; background: #1a1a3e; border-radius: 10px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.25); }
-  .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #8b6914, #d4af37, #f0d060); border-radius: 10px; transition: width 0.35s ease; box-shadow: 0 0 10px rgba(240, 208, 96, 0.5); }
-  .progress-text { font-size: 11px; color: #c9b26a; margin-top: 6px; text-align: right; letter-spacing: 0.5px; }
+  .progress-bar-bg { height: 6px; background: #111; border: 1px solid #333; border-radius: 2px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; width: 0%; background: #8b0000; box-shadow: 0 0 8px #ff4d4d; transition: width 0.35s ease; }
+  .progress-text { font-size: 11px; color: #6b7a6b; margin-top: 6px; text-align: right; letter-spacing: 1px; }
 
-  .question-block { width: 100%; text-align: left; margin-bottom: 14px; }
-  .question-block label { display: block; font-size: 13.5px; font-weight: 600; color: #e8c547; margin-bottom: 6px; line-height: 1.4; letter-spacing: 0.2px; }
+  .question-block { width: 100%; text-align: left; margin-bottom: 16px; }
+  .question-block label { display: block; font-size: 13px; font-weight: 600; color: #8fbc8f; margin-bottom: 6px; line-height: 1.4; }
   .question-block textarea {
     width: 100%; box-sizing: border-box;
-    border: 1px solid #3a3558;
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-family: 'Georgia', serif;
-    font-size: 14px;
-    background: rgba(10, 9, 22, 0.85);
-    color: #e8e4f5;
+    border: 1px solid #3a4a3a;
+    border-radius: 2px;
+    padding: 10px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    background: #0a0f0a;
+    color: #b3c9b3;
     resize: vertical; min-height: 44px;
     outline: none; transition: all 0.2s;
   }
-  .question-block textarea::placeholder { color: #5a5478; font-style: italic; }
+  .question-block textarea::placeholder { color: #4a5a4a; }
   .question-block textarea:focus {
-    border-color: #d4af37;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15), inset 0 0 8px rgba(212, 175, 55, 0.06);
-    background: rgba(14, 12, 28, 0.95);
+    border-color: #8b0000;
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
+    background: #0f150f;
   }
 
-  .block-title { font-size: 17px; font-weight: 700; color: #f0d060; margin: 4px 0 12px; text-align: center; width: 100%; letter-spacing: 0.5px; }
+  .block-title { font-size: 16px; font-weight: 700; color: #ff4d4d; margin: 4px 0 14px; text-align: center; width: 100%; text-transform: uppercase; border-bottom: 1px solid #3a4a3a; padding-bottom: 6px; }
 
-  .final-card {
-    background: rgba(10, 9, 22, 0.8);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 10px;
-    padding: 16px 18px; width: 100%;
-    margin: 10px 0;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
-    text-align: left;
-    max-height: 260px; overflow-y: auto;
+  /* Экран статистики */
+  .stat-card {
+    background: #0a0f0a;
+    border: 1px dashed #8b0000;
+    border-radius: 4px;
+    padding: 20px;
+    width: 100%;
+    margin: 15px 0;
+    text-align: center;
   }
-  .final-card::-webkit-scrollbar { width: 6px; }
-  .final-card::-webkit-scrollbar-track { background: #1a1a3e; border-radius: 3px; }
-  .final-card::-webkit-scrollbar-thumb { background: #b8860b; border-radius: 3px; }
-  .final-card .block-name { font-size: 12px; font-weight: 700; color: #d4af37; margin: 10px 0 6px; text-transform: uppercase; letter-spacing: 0.8px; }
-  .final-card .block-name:first-child { margin-top: 0; }
-  .final-card .qa { font-size: 13px; color: #d8d4e8; line-height: 1.45; margin-bottom: 8px; }
-  .final-card .qa .q { color: #a9a3c4; font-weight: 600; }
-  .final-card .qa .a { color: #f0d060; }
+  .stat-title { font-size: 14px; color: #6b7a6b; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-percent { font-size: 48px; font-weight: bold; color: #ff4d4d; text-shadow: 0 0 20px rgba(255, 77, 77, 0.6); margin-bottom: 10px; }
+  .stat-verdict { font-size: 16px; color: #8fbc8f; font-weight: bold; margin-bottom: 15px; }
+  .stat-desc { font-size: 13px; color: #a9b8a9; line-height: 1.5; }
 
-  .confetti { font-size: 44px; margin: 4px 0; filter: drop-shadow(0 0 16px rgba(240, 208, 96, 0.6)); }
-  .status-ok { color: #7fc28f; font-size: 13px; margin-top: 6px; }
-  .status-error { color: #e57373; font-size: 13px; margin-top: 6px; }
+  .status-ok { color: #8fbc8f; font-size: 13px; margin-top: 10px; }
+  .status-error { color: #ff4d4d; font-size: 13px; margin-top: 10px; }
 
   @media (max-width: 480px) {
     .container { padding: 24px 14px 30px; }
-    h1 { font-size: 23px; }
-    .btn { font-size: 15px; padding: 13px 20px; }
-    .emblem { font-size: 50px; }
+    h1 { font-size: 22px; }
+    .btn { font-size: 14px; padding: 12px 16px; }
+    .stat-percent { font-size: 38px; }
   }
 </style>
 </head>
@@ -193,12 +180,11 @@
 
   <!-- ЭКРАН 1: ПРИВЕТСТВИЕ -->
   <div class="screen active" id="screen0">
-    <!-- Заменили палочку на безопасную звездочку -->
-    <div class="emblem">⚡✨</div>
-    <h1>Привет, подруга!</h1>
-    <p>Хочу закрепить знания о тебе.</p>
-    <p class="sub">Ответь на несколько вопросов — это займёт пару минут. Твои ответы придут мне.</p>
-    <button class="btn" onclick="startSurvey()">Начать опрос</button>
+    <div class="emblem">☣️</div>
+    <h1>Протокол выживания</h1>
+    <p>Привет, подруга. Система хочет проверить твою готовность к зомби-апокалипсису.</p>
+    <p class="sub">Ответь на 25 вопросов честно. Твои ответы придут мне, а в конце ты узнаешь свои шансы.</p>
+    <button class="btn" onclick="startSurvey()">Начать тест</button>
   </div>
 
   <!-- ЭКРАНЫ ВОПРОСОВ генерируются скриптом -->
@@ -206,13 +192,20 @@
 
   <!-- ФИНАЛЬНЫЙ ЭКРАН -->
   <div class="screen" id="screenFinal">
-    <div class="confetti">📜✨</div>
-    <h2>Свиток готов!</h2>
-    <p class="sub">Проверь ответы и отправь мне.</p>
-    <div class="final-card" id="finalSummary"></div>
-    <button class="btn btn-success" onclick="sendNotification()" id="sendBtn">📨 Отправить организатору</button>
+    <div class="emblem" style="font-size: 40px;">🧬</div>
+    <h2>Анализ завершён</h2>
+    
+    <div class="stat-card">
+      <div class="stat-title">Шанс выживания</div>
+      <div class="stat-percent" id="survivalPercent">--%</div>
+      <div class="stat-verdict" id="survivalVerdict">Вычисляется...</div>
+      <div class="stat-desc" id="survivalDesc">Ожидание данных...</div>
+    </div>
+
+    <button class="btn btn-danger" onclick="sendNotification()" id="sendBtn">📨 Отправить данные</button>
     <p id="sendStatus"></p>
-    <button class="btn btn-outline" onclick="resetAll()" style="margin-top:4px;">Начать заново</button>
+    
+    <button class="btn" onclick="resetAll()" style="margin-top:8px;">Начать заново</button>
   </div>
 
 </div>
@@ -227,56 +220,56 @@
   };
   // ============================================================
 
-  // Блоки вопросов — можно менять/добавлять
+  // Блоки вопросов
   const BLOCKS = [
     {
-      name: "🎨 Вкусы и предпочтения",
+      name: "🩸 Базовые навыки",
       questions: [
-        "Любимый цвет и почему именно он?",
-        "Любимый фильм или сериал, который можешь пересматривать бесконечно?",
-        "Книга, которая тебя больше всего впечатлила?",
-        "Любимая музыка/исполнитель под настроение?",
-        "Есть блюдо, которое ты готова есть всегда?"
+        "Умеешь ли ты оказывать первую помощь (перевязка, шина)?",
+        "Знаешь ли ты, как развести огонь без спичек?",
+        "Сможешь ли ты найти съедобные растения в лесу?",
+        "Умеешь ли ты ориентироваться по звёздам или компасу?",
+        "Есть ли у тебя физическая подготовка (пробежки, спорт)?"
       ]
     },
     {
-      name: "💭 Ценности и характер",
+      name: "🔫 Оружие и снаряжение",
       questions: [
-        "Что для тебя важнее: сделать идеально или сделать вовремя?",
-        "За что тебе было бы стыдно перед самой собой?",
-        "Какое качество в людях ты ценишь больше всего?",
-        "Что мгновенно выводит тебя из себя в общении?",
-        "Ты скорее человек привычки или любишь перемены?"
+        "Что бы ты взяла в первую очередь: аптечку или нож?",
+        "Умеешь ли ты пользоваться холодным оружием?",
+        "Смогла бы ты выстрелить в человека, если бы он напал?",
+        "Есть ли у тебя дома запас еды и воды на месяц?",
+        "Знаешь ли ты, где находится ближайший бункер или подвал?"
       ]
     },
     {
-      name: "⚡ Энергия и отдых",
+      name: "🧠 Психология",
       questions: [
-        "Ты заряжаешься в компании людей или наедине с собой?",
-        "Как выглядит твой идеальный выходной, если ты предоставлена сама себе?",
-        "Как ты восстанавливаешься после тяжёлой недели?",
-        "Ты «жаворонок» или «сова»?",
-        "Обсуждаешь проблему сразу или сначала «переспишь» с ней?"
+        "Как ты реагируешь на внезапный громкий звук?",
+        "Сможешь ли ты бросить раненого товарища ради спасения группы?",
+        "Доверяешь ли ты незнакомцам в критической ситуации?",
+        "Легко ли тебя вывести из себя?",
+        "Ты предпочитаешь действовать в одиночку или в группе?"
       ]
     },
     {
-      name: "🚀 Мечты, прошлое и будущее",
+      name: "🏕 Стратегия",
       questions: [
-        "Какой совет ты бы дала себе 5 лет назад?",
-        "Если бы деньги не имели значения, чем бы ты занималась прямо сейчас?",
-        "О чём ты мечтаешь, но пока не решаешься?",
-        "Какое путешествие запомнилось тебе больше всего?",
-        "Чему ты хочешь научиться в ближайший год?"
+        "Где бы ты спряталась: в лесу или в городе?",
+        "Стала бы ты мародёрствовать в брошенных магазинах?",
+        "Как бы ты перемещалась: на машине или пешком?",
+        "Стала бы ты спасать незнакомого ребёнка?",
+        "Что для тебя важнее в апокалипсисе: сохранить человечность или выжить любой ценой?"
       ]
     },
     {
-      name: "😄 Лёгкое и неожиданное",
+      name: "☣️ Личные качества",
       questions: [
-        "Какой самый странный или бесполезный талант у тебя есть?",
-        "За что ты последний раз искренне благодарила кого-то (или жизнь в целом)?",
-        "Какой вопрос ты бы хотела задать мне в ответ, чтобы он остался между нами?",
-        "Любимое место, где тебе по-настоящему хорошо?",
-        "Вещь, без которой не выходишь из дома?"
+        "Как долго ты сможешь не спать в экстренной ситуации?",
+        "Есть ли у тебя хронические заболевания, требующие лекарств?",
+        "Ты веришь в свою удачу?",
+        "Сможешь ли ты убить зомби, если это будет твой друг?",
+        "Какой фильм про зомби ты считаешь самым реалистичным?"
       ]
     }
   ];
@@ -284,6 +277,8 @@
   let currentBlock = 0;
   let answers = [];
   let notificationSent = false;
+  let survivalScore = 0;
+  let isSurvivor = false;
 
   function initAnswers() {
     answers = BLOCKS.map(b => b.questions.map(() => ""));
@@ -300,7 +295,7 @@
       screen.innerHTML = `
         <div class="progress-wrap">
           <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill${bi}"></div></div>
-          <div class="progress-text">Блок ${bi + 1} из ${BLOCKS.length}</div>
+          <div class="progress-text">Сектор ${bi + 1} из ${BLOCKS.length}</div>
         </div>
         <div class="block-title">${block.name}</div>
         <div id="questionsWrap${bi}" style="width:100%;"></div>
@@ -314,7 +309,7 @@
         div.className = 'question-block';
         div.innerHTML = `
           <label>${bi * 5 + qi + 1}. ${q}</label>
-          <textarea id="ans-${bi}-${qi}" placeholder="Твой ответ..." oninput="onAnswerInput(${bi}, ${qi})"></textarea>
+          <textarea id="ans-${bi}-${qi}" placeholder="Введи ответ..." oninput="onAnswerInput(${bi}, ${qi})"></textarea>
         `;
         qWrap.appendChild(div);
       });
@@ -365,26 +360,50 @@
       updateNextButton(currentBlock);
       updateProgress(currentBlock);
     } else {
+      calculateSurvival();
       showFinal();
     }
   }
 
-  function showFinal() {
-    const summary = document.getElementById('finalSummary');
-    summary.innerHTML = '';
-    BLOCKS.forEach((block, bi) => {
-      const bn = document.createElement('div');
-      bn.className = 'block-name';
-      bn.textContent = block.name;
-      summary.appendChild(bn);
-      block.questions.forEach((q, qi) => {
-        const qa = document.createElement('div');
-        qa.className = 'qa';
-        qa.innerHTML = `<span class="q">${q}</span><br><span class="a">${answers[bi][qi] || '—'}</span>`;
-        summary.appendChild(qa);
-      });
-    });
+  // Логика расчёта
+  function calculateSurvival() {
+    // Генерируем случайный шанс от 12% до 98%
+    survivalScore = Math.floor(Math.random() * 87) + 12; 
+    
+    const percentEl = document.getElementById('survivalPercent');
+    const verdictEl = document.getElementById('survivalVerdict');
+    const descEl = document.getElementById('survivalDesc');
 
+    percentEl.textContent = survivalScore + '%';
+
+    if (survivalScore >= 80) {
+      isSurvivor = true;
+      percentEl.style.color = '#8fbc8f';
+      percentEl.style.textShadow = '0 0 20px rgba(143, 188, 143, 0.6)';
+      verdictEl.textContent = 'Статус: ЛИДЕР ВЫЖИВШИХ';
+      descEl.textContent = 'У тебя отличные шансы. Ты знаешь, что делать, и не паникуешь. Собери вокруг себя команду — и вы построите новую цивилизацию.';
+    } else if (survivalScore >= 50) {
+      isSurvivor = true;
+      percentEl.style.color = '#e8c547';
+      percentEl.style.textShadow = '0 0 20px rgba(232, 197, 71, 0.6)';
+      verdictEl.textContent = 'Статус: ВЫЖИВШИЙ';
+      descEl.textContent = 'Ты справишься, если будешь держаться в тени и слушать опытных людей. Не геройствуй зря.';
+    } else if (survivalScore >= 25) {
+      isSurvivor = false;
+      percentEl.style.color = '#ff9800';
+      percentEl.style.textShadow = '0 0 20px rgba(255, 152, 0, 0.6)';
+      verdictEl.textContent = 'Статус: ГРУППА РИСКА';
+      descEl.textContent = 'Тебе повезёт, если тебя подберут хорошие люди. Но лучше срочно учиться разжигать огонь и бегать.';
+    } else {
+      isSurvivor = false;
+      percentEl.style.color = '#ff4d4d';
+      percentEl.style.textShadow = '0 0 20px rgba(255, 77, 77, 0.6)';
+      verdictEl.textContent = 'Статус: ОБЕД ДЛЯ ЗОМБИ';
+      descEl.textContent = 'Шансы невелики. Возможно, тебе стоит стать очень быстрым бегуном или найти зомби, который тебя пожалеет.';
+    }
+  }
+
+  function showFinal() {
     notificationSent = false;
     const status = document.getElementById('sendStatus');
     status.textContent = '';
@@ -392,8 +411,7 @@
     const btn = document.getElementById('sendBtn');
     btn.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = '📨 Отправить организатору';
-
+    btn.textContent = '📨 Отправить данные';
     showScreen('screenFinal');
   }
 
@@ -402,17 +420,21 @@
     const status = document.getElementById('sendStatus');
 
     if (notificationSent) {
-      status.textContent = '✅ Уже отправлено!';
+      status.textContent = '✅ Данные уже переданы!';
       status.className = 'status-ok';
       return;
     }
 
     btn.disabled = true;
-    btn.textContent = '⏳ Отправляю...';
+    btn.textContent = '⏳ Передача...';
     status.textContent = '⏳ Отправка...';
     status.className = '';
 
-    let message = '⚡ ОТВЕТЫ НА ОПРОСНИК ⚡\n\n';
+    let message = '☣️ ДАННЫЕ ВЫЖИВАНИЯ ☣️\n';
+    message += `Шанс выживания: ${survivalScore}%\n`;
+    message += `Вердикт: ${document.getElementById('survivalVerdict').textContent.replace('Статус: ', '')}\n`;
+    message += `----------------------------\n\n`;
+
     BLOCKS.forEach((block, bi) => {
       message += block.name + '\n';
       block.questions.forEach((q, qi) => {
@@ -433,7 +455,7 @@
       });
       const data = await response.json();
       if (data.ok) {
-        status.textContent = '✅ Ответы отправлены!';
+        status.textContent = '✅ Данные успешно переданы!';
         status.className = 'status-ok';
         notificationSent = true;
         btn.style.display = 'none';
@@ -464,12 +486,11 @@
     const btn = document.getElementById('sendBtn');
     btn.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = '📨 Отправить организатору';
+    btn.textContent = '📨 Отправить данные';
 
     showScreen('screen0');
   }
 
-  console.log('⚡ Опросник загружен!');
 </script>
 </body>
 </html>
