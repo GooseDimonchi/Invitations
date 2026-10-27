@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Протокол выживания 🧟‍♂️</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+
+  body {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    background: #0a0f0a;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(30, 50, 30, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(50, 30, 20, 0.4) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px);
+    padding: 16px;
+    position: relative;
+    overflow-x: hidden;
+    color: #b3c9b3;
+  }
+
+  /* Пятна крови/грязи */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: 
+      radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 20%),
+      radial-gradient(circle at 20% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 30%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 500px; width: 100%;
+    background: rgba(15, 20, 15, 0.95);
+    border: 2px solid #3a5a3a;
+    box-shadow: 
+      0 0 20px rgba(58, 90, 58, 0.3),
+      inset 0 0 40px rgba(0,0,0,0.8);
+    border-radius: 4px;
+    padding: 30px 22px 36px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Уголки-зажимы */
+  .container::before, .container::after {
+    content: '■';
+    position: absolute;
+    color: #8b0000;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .container::before { top: 8px; left: 10px; }
+  .container::after { bottom: 8px; right: 10px; }
+
+  .screen {
+    display: none; flex-direction: column; align-items: center; text-align: center;
+    position: relative; z-index: 2; animation: flicker 0.4s ease;
+  }
+  .screen.active { display: flex; }
+  
+  @keyframes flicker { 
+    0% { opacity: 0; filter: blur(2px); } 
+    50% { opacity: 0.5; filter: blur(0px); }
+    100% { opacity: 1; } 
+  }
+
+  h1 {
+    font-size: 26px; font-weight: 700; color: #ff4d4d;
+    margin-bottom: 8px; letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 20px; font-weight: 600; color: #8fbc8f;
+    margin-bottom: 10px; letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  p { font-size: 14px; color: #a9b8a9; line-height: 1.6; margin-bottom: 16px; }
+  .sub { font-size: 12px; color: #6b7a6b; opacity: 0.9; font-style: italic; }
+
+  .emblem { font-size: 54px; margin-bottom: 8px; filter: drop-shadow(0 0 12px rgba(139, 0, 0, 0.6)); }
+
+  .btn {
+    background: linear-gradient(180deg, #2e3e2e 0%, #1a221a 100%);
+    border: 1px solid #5a7a5a;
+    color: #b3c9b3;
+    font-family: 'Courier New', monospace;
+    font-size: 16px; font-weight: 700;
+    padding: 14px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    width: 100%; max-width: 300px; margin: 8px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .btn:hover {
+    background: linear-gradient(180deg, #3e5e3e 0%, #2a3a2a 100%);
+    color: #e0f0e0;
+    border-color: #8fbc8f;
+    box-shadow: 0 0 15px rgba(143, 188, 143, 0.3);
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(100%); }
+
+  .btn-danger {
+    background: linear-gradient(180deg, #5c1a1a 0%, #2a0a0a 100%);
+    border: 1px solid #8b0000;
+    color: #ff9999;
+  }
+  .btn-danger:hover {
+    background: linear-gradient(180deg, #7a2020 0%, #3a0a0a 100%);
+    border-color: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+  }
+
+  .progress-wrap { width: 100%; margin-bottom: 18px; }
+  .progress-bar-bg { height: 6px; background: #111; border: 1px solid #333; border-radius: 2px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; width: 0%; background: #8b0000; box-shadow: 0 0 8px #ff4d4d; transition: width 0.35s ease; }
+  .progress-text { font-size: 11px; color: #6b7a6b; margin-top: 6px; text-align: right; letter-spacing: 1px; }
+
+  .question-block { width: 100%; text-align: left; margin-bottom: 16px; }
+  .question-block label { display: block; font-size: 13px; font-weight: 600; color: #8fbc8f; margin-bottom: 6px; line-height: 1.4; }
+  .question-block textarea {
+    width: 100%; box-sizing: border-box;
+    border: 1px solid #3a4a3a;
+    border-radius: 2px;
+    padding: 10px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    background: #0a0f0a;
+    color: #b3c9b3;
+    resize: vertical; min-height: 44px;
+    outline: none; transition: all 0.2s;
+  }
+  .question-block textarea::placeholder { color: #4a5a4a; }
+  .question-block textarea:focus {
+    border-color: #8b0000;
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
+    background: #0f150f;
+  }
+
+  .block-title { font-size: 16px; font-weight: 700; color: #ff4d4d; margin: 4px 0 14px; text-align: center; width: 100%; text-transform: uppercase; border-bottom: 1px solid #3a4a3a; padding-bottom: 6px; }
+
+  /* Экран статистики */
+  .stat-card {
+    background: #0a0f0a;
+    border: 1px dashed #8b0000;
+    border-radius: 4px;
+    padding: 20px;
+    width: 100%;
+    margin: 15px 0;
+    text-align: center;
+  }
+  .stat-title { font-size: 14px; color: #6b7a6b; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-percent { font-size: 48px; font-weight: bold; color: #ff4d4d; text-shadow: 0 0 20px rgba(255, 77, 77, 0.6); margin-bottom: 10px; }
+  .stat-verdict { font-size: 16px; color: #8fbc8f; font-weight: bold; margin-bottom: 15px; }
+  .stat-desc { font-size: 13px; color: #a9b8a9; line-height: 1.5; }
+
+  .status-ok { color: #8fbc8f; font-size: 13px; margin-top: 10px; }
+  .status-error { color: #ff4d4d; font-size: 13px; margin-top: 10px; }
+
+  @media (max-width: 480px) {
+    .container { padding: 24px 14px 30px; }
+    h1 { font-size: 22px; }
+    .btn { font-size: 14px; padding: 12px 16px; }
+    .stat-percent { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="app">
+
+  <!-- ЭКРАН 1: ПРИВЕТСТВИЕ -->
+  <div class="screen active" id="screen0">
+    <div class="emblem">☣️</div>
+    <h1>Протокол выживания</h1>
+    <p>Привет, подруга. Система хочет проверить твою готовность к зомби-апокалипсису.</p>
+    <p class="sub">Ответь на 25 вопросов честно. Твои ответы придут мне, а в конце ты узнаешь свои шансы.</p>
+    <button class="btn" onclick="startSurvey()">Начать тест</button>
+  </div>
+
+  <!-- ЭКРАНЫ ВОПРОСОВ генерируются скриптом -->
+  <div id="questionScreens"></div>
+
+  <!-- ФИНАЛЬНЫЙ ЭКРАН -->
+  <div class="screen" id="screenFinal">
+    <div class="emblem" style="font-size: 40px;">🧬</div>
+    <h2>Анализ завершён</h2>
+    
+    <div class="stat-card">
+      <div class="stat-title">Шанс выживания</div>
+      <div class="stat-percent" id="survivalPercent">--%</div>
+      <div class="stat-verdict" id="survivalVerdict">Вычисляется...</div>
+      <div class="stat-desc" id="survivalDesc">Ожидание данных...</div>
+    </div>
+
+    <button class="btn btn-danger" onclick="sendNotification()" id="sendBtn">📨 Отправить данные</button>
+    <p id="sendStatus"></p>
+    
+    <button class="btn" onclick="resetAll()" style="margin-top:8px;">Начать заново</button>
+  </div>
+
+</div>
+
+<script>
+  // ============================================================
+  // 🔧 НАСТРОЙКИ
+  // ============================================================
+  const CONFIG = {
+    BOT_TOKEN: "8813795823:AAG6oh1nW8wrOUEYe4VvO9hJD_IZUsSBsTI",
+    CHAT_ID: "943862860",
+  };
+  // ============================================================
+
+  // Блоки вопросов
+  const BLOCKS = [
+    {
+      name: "🩸 Базовые навыки",
+      questions: [
+        "Умеешь ли ты оказывать первую помощь (перевязка, шина)?",
+        "Знаешь ли ты, как развести огонь без спичек?",
+        "Сможешь ли ты найти съедобные растения в лесу?",
+        "Умеешь ли ты ориентироваться по звёздам или компасу?",
+        "Есть ли у тебя физическая подготовка (пробежки, спорт)?"
+      ]
+    },
+    {
+      name: "🔫 Оружие и снаряжение",
+      questions: [
+        "Что бы ты взяла в первую очередь: аптечку или нож?",
+        "Умеешь ли ты пользоваться холодным оружием?",
+        "Смогла бы ты выстрелить в человека, если бы он напал?",
+        "Есть ли у тебя дома запас еды и воды на месяц?",
+        "Знаешь ли ты, где находится ближайший бункер или подвал?"
+      ]
+    },
+    {
+      name: "🧠 Психология",
+      questions: [
+        "Как ты реагируешь на внезапный громкий звук?",
+        "Сможешь ли ты бросить раненого товарища ради спасения группы?",
+        "Доверяешь ли ты незнакомцам в критической ситуации?",
+        "Легко ли тебя вывести из себя?",
+        "Ты предпочитаешь действовать в одиночку или в группе?"
+      ]
+    },
+    {
+      name: "🏕 Стратегия",
+      questions: [
+        "Где бы ты спряталась: в лесу или в городе?",
+        "Стала бы ты мародёрствовать в брошенных магазинах?",
+        "Как бы ты перемещалась: на машине или пешком?",
+        "Стала бы ты спасать незнакомого ребёнка?",
+        "Что для тебя важнее в апокалипсисе: сохранить человечность или выжить любой ценой?"
+      ]
+    },
+    {
+      name: "☣️ Личные качества",
+      questions: [
+        "Как долго ты сможешь не спать в экстренной ситуации?",
+        "Есть ли у тебя хронические заболевания, требующие лекарств?",
+        "Ты веришь в свою удачу?",
+        "Сможешь ли ты убить зомби, если это будет твой друг?",
+        "Какой фильм про зомби ты считаешь самым реалистичным?"
+      ]
+    }
+  ];
+
+  let currentBlock = 0;
+  let answers = [];
+  let notificationSent = false;
+  let survivalScore = 0;
+  let isSurvivor = false;
+
+  function initAnswers() {
+    answers = BLOCKS.map(b => b.questions.map(() => ""));
+  }
+  initAnswers();
+
+  function buildQuestionScreens() {
+    const wrap = document.getElementById('questionScreens');
+    wrap.innerHTML = '';
+    BLOCKS.forEach((block, bi) => {
+      const screen = document.createElement('div');
+      screen.className = 'screen';
+      screen.id = 'screenQ' + bi;
+      screen.innerHTML = `
+        <div class="progress-wrap">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill${bi}"></div></div>
+          <div class="progress-text">Сектор ${bi + 1} из ${BLOCKS.length}</div>
+        </div>
+        <div class="block-title">${block.name}</div>
+        <div id="questionsWrap${bi}" style="width:100%;"></div>
+        <button class="btn" id="nextBtn${bi}" onclick="nextBlock(${bi})" disabled>Далее →</button>
+      `;
+      wrap.appendChild(screen);
+
+      const qWrap = screen.querySelector('#questionsWrap' + bi);
+      block.questions.forEach((q, qi) => {
+        const div = document.createElement('div');
+        div.className = 'question-block';
+        div.innerHTML = `
+          <label>${bi * 5 + qi + 1}. ${q}</label>
+          <textarea id="ans-${bi}-${qi}" placeholder="Введи ответ..." oninput="onAnswerInput(${bi}, ${qi})"></textarea>
+        `;
+        qWrap.appendChild(div);
+      });
+    });
+  }
+  buildQuestionScreens();
+
+  function onAnswerInput(bi, qi) {
+    const ta = document.getElementById(`ans-${bi}-${qi}`);
+    answers[bi][qi] = ta.value.trim();
+    updateNextButton(bi);
+    updateProgress(bi);
+  }
+
+  function updateNextButton(bi) {
+    const btn = document.getElementById('nextBtn' + bi);
+    const filled = answers[bi].every(a => a.length > 0);
+    btn.disabled = !filled;
+    btn.textContent = filled ? 'Далее →' : 'Заполни все поля...';
+  }
+
+  function updateProgress(bi) {
+    const fill = document.getElementById('progressFill' + bi);
+    if (!fill) return;
+    const filled = answers[bi].filter(a => a.length > 0).length;
+    const total = answers[bi].length;
+    fill.style.width = (filled / total * 100) + '%';
+  }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function startSurvey() {
+    currentBlock = 0;
+    showScreen('screenQ0');
+    updateNextButton(0);
+    updateProgress(0);
+  }
+
+  function nextBlock(bi) {
+    if (bi < BLOCKS.length - 1) {
+      currentBlock = bi + 1;
+      showScreen('screenQ' + currentBlock);
+      updateNextButton(currentBlock);
+      updateProgress(currentBlock);
+    } else {
+      calculateSurvival();
+      showFinal();
+    }
+  }
+
+  // Логика расчёта
+  function calculateSurvival() {
+    // Генерируем случайный шанс от 12% до 98%
+    survivalScore = Math.floor(Math.random() * 87) + 12; 
+    
+    const percentEl = document.getElementById('survivalPercent');
+    const verdictEl = document.getElementById('survivalVerdict');
+    const descEl = document.getElementById('survivalDesc');
+
+    percentEl.textContent = survivalScore + '%';
+
+    if (survivalScore >= 80) {
+      isSurvivor = true;
+      percentEl.style.color = '#8fbc8f';
+      percentEl.style.textShadow = '0 0 20px rgba(143, 188, 143, 0.6)';
+      verdictEl.textContent = 'Статус: ЛИДЕР ВЫЖИВШИХ';
+      descEl.textContent = 'У тебя отличные шансы. Ты знаешь, что делать, и не паникуешь. Собери вокруг себя команду — и вы построите новую цивилизацию.';
+    } else if (survivalScore >= 50) {
+      isSurvivor = true;
+      percentEl.style.color = '#e8c547';
+      percentEl.style.textShadow = '0 0 20px rgba(232, 197, 71, 0.6)';
+      verdictEl.textContent = 'Статус: ВЫЖИВШИЙ';
+      descEl.textContent = 'Ты справишься, если будешь держаться в тени и слушать опытных людей. Не геройствуй зря.';
+    } else if (survivalScore >= 25) {
+      isSurvivor = false;
+      percentEl.style.color = '#ff9800';
+      percentEl.style.textShadow = '0 0 20px rgba(255, 152, 0, 0.6)';
+      verdictEl.textContent = 'Статус: ГРУППА РИСКА';
+      descEl.textContent = 'Тебе повезёт, если тебя подберут хорошие люди. Но лучше срочно учиться разжигать огонь и бегать.';
+    } else {
+      isSurvivor = false;
+      percentEl.style.color = '#ff4d4d';
+      percentEl.style.textShadow = '0 0 20px rgba(255, 77, 77, 0.6)';
+      verdictEl.textContent = 'Статус: ОБЕД ДЛЯ ЗОМБИ';
+      descEl.textContent = 'Шансы невелики. Возможно, тебе стоит стать очень быстрым бегуном или найти зомби, который тебя пожалеет.';
+    }
+  }
+
+  function showFinal() {
+    notificationSent = false;
+    const status = document.getElementById('sendStatus');
+    status.textContent = '';
+    status.className = '';
+    const btn = document.getElementById('sendBtn');
+    btn.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '📨 Отправить данные';
+    showScreen('screenFinal');
+  }
+
+  async function sendNotification() {
+    const btn = document.getElementById('sendBtn');
+    const status = document.getElementById('sendStatus');
+
+    if (notificationSent) {
+      status.textContent = '✅ Данные уже переданы!';
+      status.className = 'status-ok';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Передача...';
+    status.textContent = '⏳ Отправка...';
+    status.className = '';
+
+    let message = '☣️ ДАННЫЕ ВЫЖИВАНИЯ ☣️\n';
+    message += `Шанс выживания: ${survivalScore}%\n`;
+    message += `Вердикт: ${document.getElementById('survivalVerdict').textContent.replace('Статус: ', '')}\n`;
+    message += `----------------------------\n\n`;
+
+    BLOCKS.forEach((block, bi) => {
+      message += block.name + '\n';
+      block.questions.forEach((q, qi) => {
+        message += `${bi * 5 + qi + 1}. ${q}\n   ${answers[bi][qi] || '—'}\n`;
+      });
+      message += '\n';
+    });
+
+    try {
+      const url = `https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CONFIG.CHAT_ID,
+          text: message,
+        })
+      });
+      const data = await response.json();
+      if (data.ok) {
+        status.textContent = '✅ Данные успешно переданы!';
+        status.className = 'status-ok';
+        notificationSent = true;
+        btn.style.display = 'none';
+      } else {
+        throw new Error(data.description || 'Неизвестная ошибка');
+      }
+    } catch (error) {
+      console.error('❌ Ошибка:', error);
+      status.textContent = '❌ ' + error.message;
+      status.className = 'status-error';
+      btn.disabled = false;
+      btn.textContent = '📨 Попробовать снова';
+    }
+  }
+
+  function resetAll() {
+    initAnswers();
+    currentBlock = 0;
+    notificationSent = false;
+
+    document.querySelectorAll('.question-block textarea').forEach(ta => ta.value = '');
+    document.querySelectorAll('.progress-bar-fill').forEach(f => f.style.width = '0%');
+    BLOCKS.forEach((_, bi) => updateNextButton(bi));
+
+    const status = document.getElementById('sendStatus');
+    status.textContent = '';
+    status.className = '';
+    const btn = document.getElementById('sendBtn');
+    btn.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '📨 Отправить данные';
+
+    showScreen('screen0');
+  }
+
+</script>
+</body>
+</html>
