@@ -3,22 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Хроники Десятого Доктора ⚡</title>
+<title>Распределяющая Шляпа 🎩</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Georgia', 'Times New Roman', serif; }
 
   body {
     display: flex; justify-content: center; align-items: center;
     min-height: 100vh;
-    background: #0a1128;
+    background: #0a0a14;
     background-image: 
-      radial-gradient(circle at 20% 30%, rgba(0, 180, 216, 0.15) 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0, 119, 182, 0.15) 0%, transparent 40%),
-      linear-gradient(180deg, #0a1128 0%, #03050f 100%);
+      radial-gradient(circle at 50% 10%, rgba(40, 30, 60, 0.8) 0%, transparent 60%),
+      radial-gradient(circle at 80% 90%, rgba(20, 40, 20, 0.4) 0%, transparent 40%),
+      linear-gradient(180deg, #050508 0%, #12101a 100%);
     padding: 16px;
     position: relative;
     overflow-x: hidden;
-    color: #caf0f8;
   }
 
   /* Звёзды */
@@ -26,164 +25,146 @@
     content: '';
     position: fixed; inset: 0;
     background-image: 
-      radial-gradient(1.5px 1.5px at 15% 25%, #ffffff 50%, transparent 50%),
-      radial-gradient(1px 1px at 35% 65%, #90e0ef 50%, transparent 50%),
-      radial-gradient(1.2px 1.2px at 75% 15%, #ffffff 50%, transparent 50%),
-      radial-gradient(1px 1px at 55% 85%, #00b4d8 50%, transparent 50%),
-      radial-gradient(1.8px 1.8px at 90% 45%, #ffffff 50%, transparent 50%);
-    opacity: 0.6;
+      radial-gradient(1.5px 1.5px at 10% 20%, #fff8e1 50%, transparent 50%),
+      radial-gradient(1px 1px at 30% 60%, #ffe082 50%, transparent 50%),
+      radial-gradient(1.8px 1.8px at 50% 15%, #ffffff 50%, transparent 50%),
+      radial-gradient(1px 1px at 70% 80%, #fff8e1 50%, transparent 50%),
+      radial-gradient(1.2px 1.2px at 90% 40%, #ffffff 50%, transparent 50%);
+    opacity: 0.5;
     pointer-events: none;
     z-index: 0;
-    animation: twinkle 5s infinite alternate;
+    animation: twinkle 7s infinite alternate;
   }
-  @keyframes twinkle { 0% { opacity: 0.4; } 100% { opacity: 0.8; } }
+  @keyframes twinkle { 0% { opacity: 0.3; } 100% { opacity: 0.7; } }
 
   .container {
-    max-width: 520px; width: 100%;
-    background: rgba(10, 17, 40, 0.85);
-    backdrop-filter: blur(10px);
-    border: 2px solid #00b4d8;
+    max-width: 540px; width: 100%;
+    background: linear-gradient(160deg, #f4e8c1 0%, #e8d5a3 100%);
+    border-radius: 4px;
     box-shadow: 
-      0 0 30px rgba(0, 180, 216, 0.25),
-      inset 0 0 40px rgba(0, 0, 0, 0.6);
-    border-radius: 12px;
-    padding: 30px 24px 36px;
+      0 0 0 2px #8b6914,
+      0 0 0 6px #3e2a10,
+      0 0 0 8px #8b6914,
+      0 25px 60px -12px rgba(0, 0, 0, 0.9),
+      inset 0 0 50px rgba(139, 105, 20, 0.15);
+    padding: 32px 24px 38px;
     position: relative;
     z-index: 2;
-  }
-
-  /* Уголки-круги */
-  .container::before, .container::after {
-    content: '◎';
-    position: absolute;
-    color: #00b4d8;
-    font-size: 20px;
-    opacity: 0.5;
-    animation: pulseCyan 3s infinite alternate;
-  }
-  .container::before { top: 8px; left: 12px; }
-  .container::after { bottom: 8px; right: 12px; }
-  
-  @keyframes pulseCyan {
-    0% { opacity: 0.3; text-shadow: 0 0 5px #00b4d8; }
-    100% { opacity: 1; text-shadow: 0 0 15px #90e0ef; }
+    color: #2a1a0a;
   }
 
   .screen {
     display: none; flex-direction: column; align-items: center; text-align: center;
-    position: relative; z-index: 2; animation: materialize 0.5s ease;
+    position: relative; z-index: 3; animation: reveal 0.6s ease;
   }
   .screen.active { display: flex; }
   
-  @keyframes materialize { 
-    0% { opacity: 0; filter: blur(4px); transform: scale(0.98); } 
-    100% { opacity: 1; filter: blur(0); transform: scale(1); } 
+  @keyframes reveal { 
+    0% { opacity: 0; transform: scale(0.98); } 
+    100% { opacity: 1; transform: scale(1); } 
   }
 
   h1 {
-    font-size: 26px; font-weight: 700; color: #90e0ef;
-    margin-bottom: 8px; letter-spacing: 1px;
-    text-shadow: 0 0 15px rgba(144, 224, 239, 0.6);
+    font-size: 26px; font-weight: 700; color: #4a2e0a;
+    margin-bottom: 8px; letter-spacing: 0.5px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
   }
   h2 {
-    font-size: 18px; font-weight: 600; color: #00b4d8;
-    margin-bottom: 10px; letter-spacing: 1px;
-    border-bottom: 1px solid #1a2a4a;
+    font-size: 20px; font-weight: 700; color: #5c3a0a;
+    margin-bottom: 10px; letter-spacing: 0.5px;
+    border-bottom: 1px solid #b8860b;
     padding-bottom: 8px;
     width: 100%;
   }
-  p { font-size: 14px; color: #a9c1d9; line-height: 1.6; margin-bottom: 16px; }
-  .sub { font-size: 12px; color: #6b8a9e; opacity: 0.9; font-style: italic; }
+  p { font-size: 15px; color: #3a2510; line-height: 1.6; margin-bottom: 16px; }
+  .sub { font-size: 13px; color: #6b4a1a; opacity: 0.9; font-style: italic; }
 
-  .emblem { font-size: 54px; margin-bottom: 8px; filter: drop-shadow(0 0 15px rgba(0, 180, 216, 0.6)); }
+  .emblem { font-size: 54px; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
 
   .btn {
-    background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
-    border: 1px solid #00b4d8;
-    color: #caf0f8;
-    font-family: 'Trebuchet MS', sans-serif;
+    background: linear-gradient(180deg, #d4af37 0%, #a8821a 100%);
+    border: 1px solid #8b6914;
+    color: #1a1205;
+    font-family: 'Georgia', serif;
     font-size: 15px; font-weight: 700;
     padding: 14px 24px;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    width: 100%; max-width: 320px; margin: 8px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    width: 100%; max-width: 340px; margin: 8px 0;
     letter-spacing: 1px;
+    text-transform: uppercase;
   }
   .btn:hover {
-    background: linear-gradient(180deg, #0096c7 0%, #0353a4 100%);
-    color: #ffffff;
-    border-color: #90e0ef;
-    box-shadow: 0 0 20px rgba(0, 180, 216, 0.4);
+    background: linear-gradient(180deg, #f0d060 0%, #c49a24 100%);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
   }
   .btn:active { transform: translateY(1px); }
-  .btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(100%); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(100%); }
 
   .btn-danger {
-    background: linear-gradient(180deg, #7209b7 0%, #3a0ca3 100%);
-    border: 1px solid #b5179e;
-    color: #f72585;
+    background: linear-gradient(180deg, #8b0000 0%, #4a0000 100%);
+    border: 1px solid #3a0000;
+    color: #ffd0d0;
   }
   .btn-danger:hover {
-    background: linear-gradient(180deg, #9d4edd 0%, #480ca8 100%);
-    border-color: #f72585;
-    color: #fff;
-    box-shadow: 0 0 20px rgba(247, 37, 133, 0.4);
+    background: linear-gradient(180deg, #b22222 0%, #6a0000 100%);
+    color: #ffffff;
   }
 
   .progress-wrap { width: 100%; margin-bottom: 20px; }
-  .progress-bar-bg { height: 6px; background: #03050f; border: 1px solid #1a2a4a; border-radius: 3px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #0077b6, #00b4d8); box-shadow: 0 0 10px #00b4d8; transition: width 0.35s ease; }
-  .progress-text { font-size: 10px; color: #6b8a9e; margin-top: 6px; text-align: right; letter-spacing: 1.5px; }
+  .progress-bar-bg { height: 6px; background: #c4b48a; border: 1px solid #8b6914; border-radius: 3px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; width: 0%; background: #8b0000; transition: width 0.35s ease; }
+  .progress-text { font-size: 11px; color: #6b4a1a; margin-top: 6px; text-align: right; letter-spacing: 1px; font-weight: bold; }
 
   .question-block { width: 100%; text-align: left; margin-bottom: 16px; }
-  .question-block label { display: block; font-size: 13px; font-weight: 600; color: #90e0ef; margin-bottom: 6px; line-height: 1.45; }
+  .question-block label { display: block; font-size: 14px; font-weight: 700; color: #4a2e0a; margin-bottom: 6px; line-height: 1.45; }
   .question-block textarea {
     width: 100%; box-sizing: border-box;
-    border: 1px solid #1a2a4a;
-    border-radius: 6px;
+    border: 1px solid #b8860b;
+    border-radius: 2px;
     padding: 10px 12px;
-    font-family: 'Trebuchet MS', sans-serif;
-    font-size: 13px;
-    background: #03050f;
-    color: #caf0f8;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #2a1a0a;
     resize: vertical; min-height: 44px;
     outline: none; transition: all 0.2s;
   }
-  .question-block textarea::placeholder { color: #3a5a7a; }
+  .question-block textarea::placeholder { color: #8b6914; font-style: italic; }
   .question-block textarea:focus {
-    border-color: #00b4d8;
-    box-shadow: 0 0 12px rgba(0, 180, 216, 0.3);
-    background: #0a1128;
+    border-color: #8b0000;
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.2);
+    background: #fffdf5;
   }
 
-  .block-title { font-size: 15px; font-weight: 700; color: #00b4d8; margin: 4px 0 14px; text-align: center; width: 100%; letter-spacing: 1px; }
+  .block-title { font-size: 16px; font-weight: 700; color: #8b0000; margin: 4px 0 14px; text-align: center; width: 100%; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px dashed #b8860b; padding-bottom: 6px; }
 
   /* Экран статистики */
   .stat-card {
-    background: #03050f;
-    border: 1px dashed #0077b6;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid #8b6914;
+    border-radius: 4px;
     padding: 20px;
     width: 100%;
     margin: 15px 0;
     text-align: center;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    box-shadow: inset 0 0 15px rgba(139, 105, 20, 0.1);
   }
-  .stat-title { font-size: 13px; color: #6b8a9e; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
-  .stat-percent { font-size: 48px; font-weight: bold; color: #00b4d8; text-shadow: 0 0 25px rgba(0, 180, 216, 0.8); margin-bottom: 10px; transition: color 0.5s; }
-  .stat-verdict { font-size: 16px; color: #90e0ef; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-  .stat-desc { font-size: 13px; color: #a9c1d9; line-height: 1.6; text-align: left; }
+  .stat-title { font-size: 14px; color: #6b4a1a; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+  .stat-percent { font-size: 36px; font-weight: bold; color: #8b0000; text-shadow: 1px 1px 0 rgba(255,255,255,0.5); margin-bottom: 10px; transition: color 0.5s; }
+  .stat-verdict { font-size: 22px; color: #4a2e0a; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-desc { font-size: 14px; color: #3a2510; line-height: 1.6; text-align: left; font-style: italic; }
 
-  .status-ok { color: #90e0ef; font-size: 13px; margin-top: 10px; }
-  .status-error { color: #f72585; font-size: 13px; margin-top: 10px; }
+  .status-ok { color: #2e7d32; font-size: 14px; margin-top: 10px; font-weight: bold; }
+  .status-error { color: #c62828; font-size: 14px; margin-top: 10px; font-weight: bold; }
 
   @media (max-width: 480px) {
     .container { padding: 24px 14px 30px; }
-    h1 { font-size: 20px; }
+    h1 { font-size: 22px; }
     .btn { font-size: 13px; padding: 12px 16px; }
-    .stat-percent { font-size: 38px; }
+    .stat-percent { font-size: 32px; }
   }
 </style>
 </head>
@@ -193,11 +174,11 @@
 
   <!-- ЭКРАН 1: ПРИВЕТСТВИЕ -->
   <div class="screen active" id="screen0">
-    <div class="emblem">🔵</div>
-    <h1>Хроники Десятого Доктора</h1>
-    <p>Привет, подруга. ТАРДИС зафиксировала временную аномалию.</p>
-    <p class="sub">20 вопросов о характере, спутниках и приключениях Десятого Доктора. Проверим, насколько хорошо ты его знаешь.</p>
-    <button class="btn" onclick="startSurvey()">Войти в ТАРДИС</button>
+    <div class="emblem">🎩</div>
+    <h1>Распределяющая Шляпа</h1>
+    <p>Привет, подруга. Надень меня на голову, и я расскажу, где твоё место.</p>
+    <p class="sub">20 вопросов о твоих ценностях, характере и желаниях. Твои ответы придут мне, а в конце я определю твой факультет.</p>
+    <button class="btn" onclick="startSurvey()">Надеть шляпу</button>
   </div>
 
   <!-- ЭКРАНЫ ВОПРОСОВ -->
@@ -205,20 +186,20 @@
 
   <!-- ФИНАЛЬНЫЙ ЭКРАН -->
   <div class="screen" id="screenFinal">
-    <div class="emblem" style="font-size: 40px;">🌀</div>
-    <h2>Сканирование завершено</h2>
+    <div class="emblem" style="font-size: 44px;">🏰</div>
+    <h2>Шляпа всё решила!</h2>
     
     <div class="stat-card">
-      <div class="stat-title">Уровень совместимости</div>
-      <div class="stat-percent" id="survivalPercent">--%</div>
+      <div class="stat-title">Твой факультет</div>
+      <div class="stat-percent" id="survivalPercent">--</div>
       <div class="stat-verdict" id="survivalVerdict">Вычисляется...</div>
       <div class="stat-desc" id="survivalDesc">Ожидание данных...</div>
     </div>
 
-    <button class="btn btn-danger" onclick="sendNotification()" id="sendBtn">📨 Передать Доктору</button>
+    <button class="btn btn-danger" onclick="sendNotification()" id="sendBtn">📨 Отправить сове</button>
     <p id="sendStatus"></p>
     
-    <button class="btn" onclick="resetAll()" style="margin-top:8px;">Начать заново</button>
+    <button class="btn" onclick="resetAll()" style="margin-top:8px;">Пройти заново</button>
   </div>
 
 </div>
@@ -233,51 +214,46 @@
   };
   // ============================================================
 
-  // Блоки вопросов (20 вопросов, по 4 в каждом)
+  // Блоки вопросов (20 вопросов, по 5 в каждом)
   const BLOCKS = [
     {
-      name: "🌀 Личность и характер",
+      name: "🦁 Ценности",
       questions: [
-        "Какое прозвище чаще всего давали Десятому Доктору?",
-        "Какую фразу он произносит, когда собирается бежать вперёд?",
-        "Какой цвет глаз у Десятого Доктора?",
-        "Что Доктор чаще всего носит с собой в карманах?"
+        "Что для тебя важнее всего в жизни?",
+        "Если бы тебе предложили выбрать суперсилу, что бы это было?",
+        "Как ты относишься к риску?",
+        "Что ты чувствуешь, когда кто-то нуждается в твоей помощи?",
+        "Твой главный страх?"
       ]
     },
     {
-      name: "💙 Спутники",
+      name: "🐍 Амбиции",
       questions: [
-        "Кто была первой спутницей Десятого Доктора?",
-        "Какая спутница стала причиной его «человеческой» версии?",
-        "Кто из спутниц потерял память о Докторе в финале?",
-        "Как звали невесту, которую Доктор встретил на Рождество?"
+        "Как ты обычно добиваешься своего?",
+        "Что для тебя успех?",
+        "Как ты относишься к правилам?",
+        "Если бы у тебя была возможность стать лидером, ты бы согласилась?",
+        "Твой девиз по жизни?"
       ]
     },
     {
-      name: "⚡ Ключевые моменты",
+      name: "🦅 Интеллект",
       questions: [
-        "В каком эпизоде Доктор впервые встречает Плачущих Ангелов?",
-        "Кто был главным врагом в финале четвёртого сезона?",
-        "Какую планету Доктор сжёг, чтобы остановить далеков?",
-        "Кто произнёс фразу «Я — Доктор, и я спасу вас всех»?"
+        "Как ты обычно решаешь сложные задачи?",
+        "Что для тебя важнее: правда или комфорт?",
+        "Любишь ли ты учиться?",
+        "Какая книга или фильм изменили твой взгляд на мир?",
+        "Как ты относишься к неопределённости?"
       ]
     },
     {
-      name: "💬 Цитаты и детали",
+      name: "🦡 Верность",
       questions: [
-        "Какую фразу Доктор говорит перед тем, как стереть память Донне?",
-        "Что Доктор сказал Уилфреду в кафе перед регенерацией?",
-        "Какой музыкальный инструмент Доктор иногда упоминает?",
-        "Какое слово Доктор говорит Розе при первой встрече?"
-      ]
-    },
-    {
-      name: "🎭 Актёр и эпоха",
-      questions: [
-        "Кто сыграл Десятого Доктора?",
-        "В каком году состоялась регенерация Десятого Доктора в Одиннадцатого?",
-        "Сколько лет было Доктору в момент его десятой регенерации?",
-        "Какой цвет преобладал в интерьере ТАРДИС Десятого Доктора?"
+        "Что для тебя значит дружба?",
+        "Готов ли ты поступиться своими интересами ради близких?",
+        "Как ты относишься к предательству?",
+        "Что бы ты сделал, если бы твой друг оказался неправ?",
+        "Твоё самое тёплое воспоминание?"
       ]
     }
   ];
@@ -285,7 +261,7 @@
   let currentBlock = 0;
   let answers = [];
   let notificationSent = false;
-  let survivalScore = 0;
+  let houseResult = "";
 
   function initAnswers() {
     answers = BLOCKS.map(b => b.questions.map(() => ""));
@@ -302,7 +278,7 @@
       screen.innerHTML = `
         <div class="progress-wrap">
           <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill${bi}"></div></div>
-          <div class="progress-text">Сектор ${bi + 1} из ${BLOCKS.length}</div>
+          <div class="progress-text">Раздел ${bi + 1} из ${BLOCKS.length}</div>
         </div>
         <div class="block-title">${block.name}</div>
         <div id="questionsWrap${bi}" style="width:100%;"></div>
@@ -315,8 +291,8 @@
         const div = document.createElement('div');
         div.className = 'question-block';
         div.innerHTML = `
-          <label>${bi * 4 + qi + 1}. ${q}</label>
-          <textarea id="ans-${bi}-${qi}" placeholder="Введи ответ..." oninput="onAnswerInput(${bi}, ${qi})"></textarea>
+          <label>${bi * 5 + qi + 1}. ${q}</label>
+          <textarea id="ans-${bi}-${qi}" placeholder="Твой ответ..." oninput="onAnswerInput(${bi}, ${qi})"></textarea>
         `;
         qWrap.appendChild(div);
       });
@@ -367,80 +343,68 @@
       updateNextButton(currentBlock);
       updateProgress(currentBlock);
     } else {
-      calculateSurvival();
+      calculateHouse();
       showFinal();
     }
   }
 
-  // Логика подсчёта (ключевые слова из ответов)
-  function calculateSurvival() {
-    let score = 0;
-    
-    // Ключевые слова для начисления баллов (касающиеся Десятого Доктора)
-    const positiveKeywords = [
-      "доктор", "десятый", "теннант", "роза", "марта", "донна", 
-      "тардис", "звуковая отвёртка", "отвёртка", "аллонзи", "allons-y", 
-      "далек", "плачущие ангелы", "ангелы", "мастер", "галлифрей", 
-      "повелитель времени", "регенерация", "уилфред", "джек", "сarah джейн",
-      "беги", "run", "молот", "костюм", "кеды", "синий"
-    ];
-    
-    // Негативные (если путает с другими Докторами)
-    const negativeKeywords = [
-      "одиннадцатый", "девятый", "двенадцатый", "тринадцатый", "смит", "капальди", "уитакер"
-    ];
+  // Логика определения факультета
+  function calculateHouse() {
+    let gryffindor = 0;
+    let slytherin = 0;
+    let ravenclaw = 0;
+    let hufflepuff = 0;
+
+    // Ключевые слова для каждого факультета
+    const keywords = {
+      gryffindor: ["смелость", "храбрость", "риск", "защита", "помощь", "друг", "честь", "битва", "сила", "отвага", "бесстрашие", "спасти"],
+      slytherin: ["амбиции", "успех", "лидер", "власть", "цель", "ум", "хитрость", "победа", "деньги", "карьера", "правила", "обойти"],
+      ravenclaw: ["знания", "ум", "логика", "анализ", "учеба", "правда", "книга", "интеллект", "мудрость", "разум", "наука", "исследование"],
+      hufflepuff: ["верность", "дружба", "доброта", "терпение", "труд", "честность", "забота", "семья", "уют", "поддержка", "равенство", "мир"]
+    };
 
     answers.forEach(blockAnswers => {
       blockAnswers.forEach(ans => {
         const lowerAns = ans.toLowerCase();
         
-        positiveKeywords.forEach(kw => {
-          if (lowerAns.includes(kw)) score += 4;
-        });
+        if (keywords.gryffindor.some(kw => lowerAns.includes(kw))) gryffindor += 2;
+        if (keywords.slytherin.some(kw => lowerAns.includes(kw))) slytherin += 2;
+        if (keywords.ravenclaw.some(kw => lowerAns.includes(kw))) ravenclaw += 2;
+        if (keywords.hufflepuff.some(kw => lowerAns.includes(kw))) hufflepuff += 2;
 
-        negativeKeywords.forEach(kw => {
-          if (lowerAns.includes(kw)) score -= 3;
-        });
-
-        if (ans.length > 15) score += 1;
+        if (ans.length > 15) {
+            gryffindor += 1;
+            slytherin += 1;
+            ravenclaw += 1;
+            hufflepuff += 1;
+        }
       });
     });
 
-    let basePercent = 25 + score; 
-    survivalScore = Math.max(10, Math.min(98, basePercent + Math.floor(Math.random() * 8) - 4));
+    // Добавляем немного случайности, чтобы не было ничьи
+    gryffindor += Math.floor(Math.random() * 3);
+    slytherin += Math.floor(Math.random() * 3);
+    ravenclaw += Math.floor(Math.random() * 3);
+    hufflepuff += Math.floor(Math.random() * 3);
+
+    const houses = [
+      { name: "ГРИФФИНДОР", score: gryffindor, color: "#ae0001", desc: "Ты — истинный гриффиндорец! Смелость, отвага и готовность прийти на помощь — это твои главные качества. Ты не боишься рисковать и всегда защищаешь слабых. В твоей груди бьётся сердце льва." },
+      { name: "СЛИЗЕРИН", score: slytherin, color: "#2a623d", desc: "Ты — слизеринец! Амбиции, хитрость и целеустремлённость помогают тебе добиваться своего. Ты знаешь, чего хочешь, и не боишься идти к цели. Ты умён, находчив и всегда на шаг впереди." },
+      { name: "КОГТЕВРАН", score: ravenclaw, color: "#0e1a40", desc: "Ты — когтевранец! Ум, логика и жажда знаний — твои главные союзники. Ты любишь учиться, анализировать и искать истину. Твой острый ум и любознательность — твоё главное оружие." },
+      { name: "ПУФФЕНДУЙ", score: hufflepuff, color: "#ecb939", desc: "Ты — пуффендуец! Верность, доброта и честность — твои главные черты. Ты всегда готов прийти на помощь, ценишь дружбу и умеешь создавать уют. Ты — душа компании и надёжный друг." }
+    ];
+
+    houses.sort((a, b) => b.score - a.score);
+    const winner = houses[0];
 
     const percentEl = document.getElementById('survivalPercent');
     const verdictEl = document.getElementById('survivalVerdict');
     const descEl = document.getElementById('survivalDesc');
 
-    percentEl.textContent = survivalScore + '%';
-
-    if (survivalScore >= 80) {
-      percentEl.style.color = '#00f5d4';
-      percentEl.style.textShadow = '0 0 30px rgba(0, 245, 212, 0.8)';
-      verdictEl.textContent = 'Статус: ИДЕАЛЬНЫЙ СПУТНИК';
-      descEl.textContent = 'Ты знаешь о Десятом Докторе практически всё. ТАРДИС открывает для тебя двери. Доктор был бы рад взять тебя в путешествие. Аллон-зи!';
-    } else if (survivalScore >= 55) {
-      percentEl.style.color = '#90e0ef';
-      percentEl.style.textShadow = '0 0 20px rgba(144, 224, 239, 0.8)';
-      verdictEl.textContent = 'Статус: ВЕРНЫЙ КОМПАНЬОН';
-      descEl.textContent = 'Ты неплохо знаешь эпоху Десятого. Возможно, стоит пересмотреть пару серий, чтобы вспомнить детали. Но в целом — ты справишься.';
-    } else if (survivalScore >= 35) {
-      percentEl.style.color = '#ffd166';
-      percentEl.style.textShadow = '0 0 20px rgba(255, 209, 102, 0.8)';
-      verdictEl.textContent = 'Статус: ГОСТЬ ИЗ ПАРАЛЛЕЛЬНОЙ ВСЕЛЕННОЙ';
-      descEl.textContent = 'Ты что-то слышала, но путаешься. Возможно, ты смотрела не все серии или просто забыла. Доктор бы поправил тебя, но с улыбкой.';
-    } else if (survivalScore >= 20) {
-      percentEl.style.color = '#f4a261';
-      percentEl.style.textShadow = '0 0 20px rgba(244, 162, 97, 0.8)';
-      verdictEl.textContent = 'Статус: СЛУЧАЙНЫЙ ПРОХОЖИЙ';
-      descEl.textContent = 'Кажется, ты не очень хорошо знакома с Десятым Доктором. Срочно нужно посмотреть хотя бы пару серий с Дэвидом Теннантом.';
-    } else {
-      percentEl.style.color = '#f72585';
-      percentEl.style.textShadow = '0 0 25px rgba(247, 37, 133, 0.9)';
-      verdictEl.textContent = 'Статус: ДАЛЕК';
-      descEl.textContent = 'Экстерминация! Ты знаешь о Докторе слишком мало. Или, что хуже, путаешь его с другими. ТАРДИС тебя не одобряет.';
-    }
+    percentEl.textContent = winner.name;
+    percentEl.style.color = winner.color;
+    verdictEl.textContent = "Добро пожаловать!";
+    descEl.textContent = winner.desc;
   }
 
   function showFinal() {
@@ -451,7 +415,7 @@
     const btn = document.getElementById('sendBtn');
     btn.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = '📨 Передать Доктору';
+    btn.textContent = '📨 Отправить сове';
     showScreen('screenFinal');
   }
 
@@ -460,25 +424,24 @@
     const status = document.getElementById('sendStatus');
 
     if (notificationSent) {
-      status.textContent = '✅ Данные уже переданы!';
+      status.textContent = '✅ Письмо уже отправлено!';
       status.className = 'status-ok';
       return;
     }
 
     btn.disabled = true;
-    btn.textContent = '⏳ Передача...';
+    btn.textContent = '⏳ Отправка...';
     status.textContent = '⏳ Отправка...';
     status.className = '';
 
-    let message = '🔵 ХРОНИКИ ДЕСЯТОГО ДОКТОРА 🔵\n';
-    message += `Совместимость: ${survivalScore}%\n`;
-    message += `Вердикт: ${document.getElementById('survivalVerdict').textContent.replace('Статус: ', '')}\n`;
+    let message = '🎩 РАСПРЕДЕЛЕНИЕ В ХОГВАРТСЕ 🎩\n';
+    message += `Факультет: ${document.getElementById('survivalPercent').textContent}\n`;
     message += `----------------------------\n\n`;
 
     BLOCKS.forEach((block, bi) => {
       message += block.name + '\n';
       block.questions.forEach((q, qi) => {
-        message += `${bi * 4 + qi + 1}. ${q}\n   ${answers[bi][qi] || '—'}\n`;
+        message += `${bi * 5 + qi + 1}. ${q}\n   ${answers[bi][qi] || '—'}\n`;
       });
       message += '\n';
     });
@@ -495,7 +458,7 @@
       });
       const data = await response.json();
       if (data.ok) {
-        status.textContent = '✅ Данные успешно переданы!';
+        status.textContent = '✅ Письмо доставлено!';
         status.className = 'status-ok';
         notificationSent = true;
         btn.style.display = 'none';
@@ -526,7 +489,7 @@
     const btn = document.getElementById('sendBtn');
     btn.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = '📨 Передать Доктору';
+    btn.textContent = '📨 Отправить сове';
 
     showScreen('screen0');
   }
